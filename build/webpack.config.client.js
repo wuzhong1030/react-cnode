@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 const htmlWebpackPlugin = require("html-webpack-plugin");
 const isDev = process.env.NODE_ENV === "development";
 
@@ -9,7 +10,7 @@ const config = {
   output: {
     filename: "[name].[hash:5].js",
     path: path.join(__dirname, "../dist"),
-    publicPath: "public"
+    publicPath: "/public/"
   },
   module: {
     rules: [
@@ -29,10 +30,14 @@ const config = {
 };
 
 if (isDev) {
+  config.entry = [
+    "react-hot-loader/patch",
+    path.join(__dirname, "../client/app.js")
+  ];
   config.devServer = {
     host: "0.0.0.0",
     port: 8888,
-    // hot: true,
+    hot: true,
     contentBase: path.join(__dirname, "../dist"),
     overlay: {
       error: true
@@ -42,6 +47,7 @@ if (isDev) {
       index: "/public/index.html"
     }
   };
+  config.plugins.push(new webpack.HotModuleReplacementPlugin());
 }
 
 module.exports = config;
