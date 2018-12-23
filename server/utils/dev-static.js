@@ -8,11 +8,13 @@ const serverConfig = require("../../build/webpack.config.server");
 const getTemplate = () => {
   return new Promise((resolve, reject) => {
     axios
-      .get("http://localhost/public/index.html")
+      .get("http://localhost:8888/public/index.html")
       .then(res => {
         resolve(res.data);
       })
-      .catch(reject);
+      .catch(err => {
+        console.error('get template error', err)
+      });
   });
 };
 
@@ -32,12 +34,11 @@ serverComplier.watch({}, (err, stats) => {
     serverConfig.output.path,
     serverConfig.output.filename
   );
-  const bundle = mfs.readFileSync(bundlePath, "utf-8");
 
+  const bundle = mfs.readFileSync(bundlePath, "utf-8");
   // 创建另一个模块
   const m = new Module();
   m._compile(bundle, "server-entry.js");
-
   serverBundle = m.exports.default;
 });
 
