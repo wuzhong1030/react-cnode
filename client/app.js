@@ -1,13 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
-import App from "./App.jsx";
+import App from "./views/App";
+import { BrowserRouter } from "react-router-dom";
 
 const root = document.getElementById("app");
 const render = C => {
-  ReactDOM.hydrate(
+  ReactDOM.render(
     <AppContainer>
-      <C />
+      <BrowserRouter>
+        <C />
+      </BrowserRouter>
     </AppContainer>,
     root
   );
@@ -16,8 +19,8 @@ const render = C => {
 render(App);
 
 if (module.hot) {
-  module.hot.accept("./App.jsx", () => {
-    var NextApp = require("./App.jsx").default;
+  module.hot.accept("./views/App.jsx", () => {
+    var NextApp = require("./views/App.jsx").default;
     render(NextApp);
   });
 }
