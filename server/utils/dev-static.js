@@ -6,14 +6,14 @@ const proxy = require("http-proxy-middleware");
 const ReactDomServer = require("react-dom/server");
 const serverConfig = require("../../build/webpack.config.server");
 const getTemplate = () => {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     axios
       .get("http://localhost:8888/public/index.html")
       .then(res => {
         resolve(res.data);
       })
       .catch(err => {
-        console.error('get template error', err)
+        console.error("get template error", err);
       });
   });
 };
@@ -24,6 +24,7 @@ const mfs = new MemoryFs();
 const serverComplier = webpack(serverConfig);
 serverComplier.outputFileSystem = mfs;
 let serverBundle;
+// 使用webpack把编译后的内容存入内存中
 serverComplier.watch({}, (err, stats) => {
   if (err) throw err;
   stats = stats.toJson();
@@ -36,7 +37,7 @@ serverComplier.watch({}, (err, stats) => {
   );
 
   const bundle = mfs.readFileSync(bundlePath, "utf-8");
-  // 创建另一个模块
+  // hack 创建一个模块
   const m = new Module();
   m._compile(bundle, "server-entry.js");
   serverBundle = m.exports.default;
@@ -52,7 +53,7 @@ module.exports = app => {
   app.get("*", function(req, res) {
     getTemplate().then(temp => {
       const content = ReactDomServer.renderToString(serverBundle);
-      res.send(temp.replace("<!--app-->", content));
+      res.send(temp.replace("<!-- app -->", content));
     });
   });
 };
