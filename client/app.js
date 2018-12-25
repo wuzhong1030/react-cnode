@@ -6,11 +6,12 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "mobx-react";
 import AppState from "./store/app-state";
 
+const initialState = window.__INITIAL_STATE__ || {};
 const root = document.getElementById("app");
 const render = C => {
   ReactDOM.render(
     <AppContainer>
-      <Provider appState={new AppState()}>
+      <Provider appState={new AppState(initialState.appState)}>
         <BrowserRouter>
           <C />
         </BrowserRouter>

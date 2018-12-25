@@ -44,6 +44,6 @@ if (!idDev) {
 }
 
 app.listen(3000, function() {
-  console.log(`your app is runing on 3000`);
+  console.log(`your server is runing on 3000`);
 });
 ``

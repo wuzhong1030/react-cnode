@@ -16,6 +16,12 @@ const config = webpackMerge(baseConfig, {
     new htmlWebpackPlugin({
       template: path.join(__dirname, "../client/index.html"),
       filename: "index.html"
+    }),
+    new htmlWebpackPlugin({
+      template:
+        "!!ejs-compiled-loader!" +
+        path.join(__dirname, "../client/server.tpl.ejs"),
+      filename: "server.ejs"
     })
   ]
 });
@@ -40,7 +46,7 @@ if (isDev) {
     proxy: {
       "/api": {
         target: "http://localhost:3000/api",
-        changeOrigin: true, 
+        changeOrigin: true,
         pathRewrite: {
           "^/api": ""
         }

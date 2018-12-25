@@ -5,12 +5,14 @@ const MemoryFs = require("memory-fs");
 const proxy = require("http-proxy-middleware");
 const ReactDomServer = require("react-dom/server");
 const serverConfig = require("../../build/webpack.config.server");
-const AsyncBootstrap = require("react-async-bootstrapper");
+const AsyncBootstrap = require("react-async-bootstrapper").default;
+const ejs = require("ejs");
+const serialize = require("serialize-javascript")
 
 const getTemplate = () => {
   return new Promise(resolve => {
     axios
-      .get("http://localhost:8888/public/index.html")
+      .get("http://localhost:8888/public/server.ejs")
       .then(res => {
         resolve(res.data);
       })
@@ -21,7 +23,6 @@ const getTemplate = () => {
 };
 
 const Module = module.constructor;
-
 const mfs = new MemoryFs();
 const serverComplier = webpack(serverConfig);
 serverComplier.outputFileSystem = mfs;
@@ -46,6 +47,14 @@ serverComplier.watch({}, (err, stats) => {
   createStoreMap = m.exports.createStoreMap;
 });
 
+// 服务端渲染更新数据默认值
+const getStoreState = stores => {
+  return Object.keys(stores).reduce((result, stroeName) => {
+    result[stroeName] = stores[stroeName].toJson();
+    return result;
+  }, {});
+};
+
 module.exports = app => {
   app.use(
     "/public",
@@ -54,18 +63,25 @@ module.exports = app => {
     })
   );
   app.get("*", function(req, res) {
-    getTemplate().then(temp => {
+    getTemplate().then(template => {
       const routerContext = {};
-      const app = serverBundle(createStoreMap(), routerContext, req.url);
+      const stores = createStoreMap();
+      const app = serverBundle(stores, routerContext, req.url);
 
       AsyncBootstrap(app).then(() => {
-        const content = ReactDomServer.renderToString(app);
         if (routerContext.url) {
           res.status(302).setHeader("Location", routerContext.url);
           res.end();
           return;
         }
-        res.send(temp.replace("<!-- app -->", content));
+        const content = ReactDomServer.renderToString(app);
+        const state = getStoreState(stores);
+        // res.send(template.replace("<!-- app -->", content));
+        const html = ejs.render(template, {
+          appString: content,
+          initialState: serialize(state)
+        });
+        res.send(html);
       });
     });
   });
