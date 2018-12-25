@@ -12,10 +12,8 @@ module.exports = function(req, res, next) {
       msg: "need login"
     });
   }
-
   const query = Object.assign({}, req.query);
   if (query.needAccessToken) delete query.needAccessToken;
-
   axios
     .post(`${baseUrl}${path}`, {
       method: req.method,

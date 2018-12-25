@@ -10,7 +10,7 @@ const config = webpackMerge(baseConfig, {
     app: path.join(__dirname, "../client/app.js")
   },
   output: {
-    filename: "[name].[hash:5].js",
+    filename: "[name].[hash:5].js"
   },
   plugins: [
     new htmlWebpackPlugin({
@@ -26,7 +26,7 @@ if (isDev) {
     path.join(__dirname, "../client/app.js")
   ];
   config.devServer = {
-    host: "0.0.0.0",
+    host: "localhost",
     port: 8888,
     hot: true,
     contentBase: path.join(__dirname, "../dist"),
@@ -36,6 +36,15 @@ if (isDev) {
     publicPath: "/public/",
     historyApiFallback: {
       index: "/public/index.html"
+    },
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000/api",
+        changeOrigin: true, 
+        pathRewrite: {
+          "^/api": ""
+        }
+      }
     }
   };
   config.plugins.push(new webpack.HotModuleReplacementPlugin());
