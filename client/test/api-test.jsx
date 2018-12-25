@@ -3,23 +3,36 @@ import axios from "axios";
 
 export default class Test extends Component {
   getTopics = () => {
-    axios.get("/api/topics").then(res => {
-      console.log(res);
-    });
+    axios
+      .get("/api/topics")
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
   login = () => {
     axios
       .post("/api/user/login", {
-        accessToken: "72c0c74c-a7f7-4278-ac80-98e71a857ac2"
+        accesstoken: "cb903f1c-eee1-40f2-b011-a6a8b66f17f0"
       })
       .then(res => {
         console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
       });
   };
   markAll = () => {
-    axios.get("/api/message/mark_all?needAccessToken=true").then(res => {
-      console.log(res);
-    });
+    axios
+      .get("/api/message/mark_all?needAccessToken=true")
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
   render() {
     return (
