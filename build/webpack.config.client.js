@@ -33,7 +33,7 @@ if (isDev) {
     overlay: {
       error: true
     },
-    publicPath: "/public",
+    publicPath: "/public/",
     historyApiFallback: {
       index: "/public/index.html"
     }

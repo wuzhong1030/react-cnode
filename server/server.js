@@ -3,9 +3,27 @@ const ReactSSR = require("react-dom/server");
 const fs = require("fs");
 const path = require("path");
 const app = express();
-const favicon = require('serve-favicon')
+const bodyParser = require("body-parser");
+const session = require("express-session");
+const favicon = require("serve-favicon");
 
-app.use(favicon(path.join(__dirname, '../favicon.ico')))
+app.use(favicon(path.join(__dirname, "../favicon.ico")));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(
+  session({
+    maxAge: 10 * 60 * 1000,
+    resave: false,
+    name: "tid",
+    saveUninitialized: false,
+    secret: "stone"
+  })
+);
+
+app.use("/api/user", require("./utils/handle-login"));
+app.use("/api", require("./utils/proxy"));
 
 const idDev = process.env.NODE_ENV === "development";
 if (!idDev) {
@@ -26,5 +44,5 @@ if (!idDev) {
 }
 
 app.listen(3000, function() {
-  console.log(`your app is runing port on 3000`);
+  console.log(`your app is runing on 3000`);
 });
