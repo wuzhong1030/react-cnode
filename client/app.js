@@ -4,13 +4,13 @@ import { AppContainer } from "react-hot-loader";
 import App from "./views/App";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "mobx-react";
-import appState from "./store/app-state";
+import AppState from "./store/app-state";
 
 const root = document.getElementById("app");
 const render = C => {
   ReactDOM.render(
     <AppContainer>
-      <Provider appState={appState}>
+      <Provider appState={new AppState()}>
         <BrowserRouter>
           <C />
         </BrowserRouter>

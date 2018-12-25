@@ -5,6 +5,8 @@ const MemoryFs = require("memory-fs");
 const proxy = require("http-proxy-middleware");
 const ReactDomServer = require("react-dom/server");
 const serverConfig = require("../../build/webpack.config.server");
+const AsyncBootstrap = require("react-async-bootstrapper");
+
 const getTemplate = () => {
   return new Promise(resolve => {
     axios
@@ -23,7 +25,7 @@ const Module = module.constructor;
 const mfs = new MemoryFs();
 const serverComplier = webpack(serverConfig);
 serverComplier.outputFileSystem = mfs;
-let serverBundle;
+let serverBundle, createStoreMap;
 // 使用webpack把编译后的内容存入内存中
 serverComplier.watch({}, (err, stats) => {
   if (err) throw err;
@@ -41,6 +43,7 @@ serverComplier.watch({}, (err, stats) => {
   const m = new Module();
   m._compile(bundle, "server-entry.js");
   serverBundle = m.exports.default;
+  createStoreMap = m.exports.createStoreMap;
 });
 
 module.exports = app => {
@@ -52,8 +55,18 @@ module.exports = app => {
   );
   app.get("*", function(req, res) {
     getTemplate().then(temp => {
-      const content = ReactDomServer.renderToString(serverBundle);
-      res.send(temp.replace("<!-- app -->", content));
+      const routerContext = {};
+      const app = serverBundle(createStoreMap(), routerContext, req.url);
+
+      AsyncBootstrap(app).then(() => {
+        const content = ReactDomServer.renderToString(app);
+        if (routerContext.url) {
+          res.status(302).setHeader("Location", routerContext.url);
+          res.end();
+          return;
+        }
+        res.send(temp.replace("<!-- app -->", content));
+      });
     });
   });
 };

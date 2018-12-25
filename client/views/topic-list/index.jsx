@@ -6,6 +6,16 @@ import { AppState } from "../../store/app-state";
 @inject("appState")
 @observer
 export default class TopicList extends Component {
+
+  asyncBootstrap() {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        this.props.appState.add()
+        resolve(true)
+      })
+    })
+  }
+
   render() {
     return (
       <div>
