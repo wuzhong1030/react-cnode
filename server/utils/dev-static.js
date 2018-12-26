@@ -7,7 +7,7 @@ const ReactDomServer = require("react-dom/server");
 const serverConfig = require("../../build/webpack.config.server");
 const AsyncBootstrap = require("react-async-bootstrapper").default;
 const ejs = require("ejs");
-const serialize = require("serialize-javascript")
+const serialize = require("serialize-javascript");
 
 const getTemplate = () => {
   return new Promise(resolve => {
@@ -22,7 +22,21 @@ const getTemplate = () => {
   });
 };
 
-const Module = module.constructor;
+const NativeModule = require("module");
+const vm = require("vm");
+
+const getModuleFromString = (bundle, filename) => {
+  const m = { exports: {} };
+  const wrapper = NativeModule.wrap(bundle);
+  const script = new vm.Script(wrapper, {
+    filename: filename,
+    displayErrors: true
+  });
+  const result = script.runInThisContext();
+  result.call(m.exports, m.exports, require, m);
+  return m
+};
+
 const mfs = new MemoryFs();
 const serverComplier = webpack(serverConfig);
 serverComplier.outputFileSystem = mfs;
@@ -40,9 +54,8 @@ serverComplier.watch({}, (err, stats) => {
   );
 
   const bundle = mfs.readFileSync(bundlePath, "utf-8");
-  // hack 创建一个模块
-  const m = new Module();
-  m._compile(bundle, "server-entry.js");
+  // 创建一个模块
+  const m = getModuleFromString(bundle, "server-entry.js");
   serverBundle = m.exports.default;
   createStoreMap = m.exports.createStoreMap;
 });
