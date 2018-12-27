@@ -9,7 +9,8 @@
     "clear": "rimraf dist",
     "dev:client": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.client.js",
     "dev:server": "cross-env NODE_ENV=development node server/server.js",
-    "build": "npm run clear && npm run build:client && npm run build:server"
+    "build": "npm run clear && npm run build:client && npm run build:server",
+    "start": "cross-env NODE_ENV=production node server/server.js"
   },
   "keywords": [],
   "author": "",

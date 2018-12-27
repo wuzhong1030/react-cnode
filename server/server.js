@@ -1,11 +1,12 @@
 const express = require("express");
-const ReactSSR = require("react-dom/server");
+// const ReactSSR = require("react-dom/server");
 const fs = require("fs");
 const path = require("path");
 const app = express();
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const favicon = require("serve-favicon");
+const serverRender = require("./utils/server-render");
 
 app.use(favicon(path.join(__dirname, "../favicon.ico")));
 
@@ -27,23 +28,29 @@ app.use("/api", require("./utils/proxy"));
 
 const idDev = process.env.NODE_ENV === "development";
 if (!idDev) {
-  const serverEntry = require("../dist/server-entry").default;
-  var templateString = fs.readFileSync(
-    path.join(__dirname, "../dist/index.html"),
-    "utf8"
+  const serverEntry = require("../dist/server-entry");
+  var template = fs.readFileSync(
+    path.join(__dirname, "../dist/server.ejs"),
+    "utf-8"
   );
   app.use("*", express.static(path.join(__dirname, "../dist")));
-  app.get("/", function(req, res) {
-    const appString = ReactSSR.renderToString(serverEntry);
-    const tempStr = templateString.replace("<!--app-->", appString);
-    res.send(tempStr);
+  app.get("/", function(req, res, next) {
+    // const appString = ReactSSR.renderToString(serverEntry);
+    // const tempStr = template.replace("<!--app-->", appString);
+    // res.send(tempStr);
+    serverRender(serverEntry, template, req, res).catch(next);
   });
 } else {
   const devStatic = require("./utils/dev-static.js");
   devStatic(app);
 }
 
+app.use(function(err, req, res, next) {
+  console.log(err);
+  res.status(500).send(err);
+});
+
 app.listen(3000, function() {
   console.log(`your server is runing on 3000`);
 });
-``
+``;
