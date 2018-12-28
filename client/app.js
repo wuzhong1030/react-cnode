@@ -3,8 +3,9 @@ import ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
 import App from "./views/App";
 import { BrowserRouter } from "react-router-dom";
-import { MuiThemeProvider, createMuiTheme } from "material-ui/styles";
-import { lightBlue, pink } from "material-ui/colors";
+import { lightBlue, pink } from "@material-ui/core/colors";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+
 import { Provider } from "mobx-react";
 import AppState from "./store/app-state";
 
@@ -13,8 +14,28 @@ const theme = createMuiTheme({
     primary: lightBlue,
     accent: pink,
     type: "light"
+  },
+  typography: {
+    useNextVariants: true,
   }
 });
+
+const createApp = TheApp => {
+  class Main extends React.Component {
+    // Remove the server-side injected CSS.
+    componentDidMount() {
+      const jssStyles = document.getElementById("jss-server-side");
+      if (jssStyles && jssStyles.parentNode) {
+        jssStyles.parentNode.removeChild(jssStyles);
+      }
+    }
+
+    render() {
+      return <TheApp />;
+    }
+  }
+  return Main;
+};
 
 const initialState = window.__INITIAL_STATE__ || {};
 const root = document.getElementById("app");
@@ -33,11 +54,11 @@ const render = C => {
   );
 };
 
-render(App);
+render(createApp(App));
 
 if (module.hot) {
   module.hot.accept("./views/App.jsx", () => {
     var NextApp = require("./views/App.jsx").default;
-    render(NextApp);
+    render(createApp(NextApp));
   });
 }

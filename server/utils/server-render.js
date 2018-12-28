@@ -4,13 +4,12 @@ const Helmet = require("react-helmet").default;
 const AsyncBootstrap = require("react-async-bootstrapper").default;
 const ReactDomServer = require("react-dom/server");
 
-const SheetsRegistry = require("react-jss").SheetsRegistry;
-const create = require("jss").create;
-const preset = require("jss-preset-default").default;
-const createMuiTheme = require("material-ui/styles").createMuiTheme;
-const createGenerateClassName = require("material-ui/styles/createGenerateClassName")
-  .default;
-const { pink, lightBlue } = require("material-ui/colors");
+const SheetsRegistry = require("jss").SheetsRegistry;
+const {
+  createMuiTheme,
+  createGenerateClassName
+} = require("@material-ui/core/styles");
+const { pink, lightBlue } = require("@material-ui/core/colors");
 
 // 服务端渲染更新数据默认值
 const getStoreState = stores => {
@@ -37,9 +36,21 @@ module.exports = (bundle, template, req, res) => {
       }
     });
     const sheetsRegistry = new SheetsRegistry();
-    const jss = create(preset())
-    jss.options.createGenerateClassName = createGenerateClassName
-    const app = createApp(stores, routerContext, sheetsRegistry, jss, theme, req.url);
+    // Create a sheetsManager instance.
+    const sheetsManager = new Map();
+
+    // Create a new class name generator.
+    const generateClassName = createGenerateClassName();
+
+    const app = createApp(
+      stores,
+      routerContext,
+      sheetsRegistry,
+      generateClassName,
+      theme,
+      sheetsManager,
+      req.url
+    );
 
     AsyncBootstrap(app)
       .then(() => {
@@ -51,6 +62,8 @@ module.exports = (bundle, template, req, res) => {
         const content = ReactDomServer.renderToString(app);
         const state = getStoreState(stores);
         const helmet = Helmet.rewind();
+
+        console.log("xxxx", sheetsRegistry.toString());
 
         const html = ejs.render(template, {
           appString: content,
