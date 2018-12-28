@@ -63,8 +63,6 @@ module.exports = (bundle, template, req, res) => {
         const state = getStoreState(stores);
         const helmet = Helmet.rewind();
 
-        console.log("xxxx", sheetsRegistry.toString());
-
         const html = ejs.render(template, {
           appString: content,
           initialState: serialize(state),
