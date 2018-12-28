@@ -4,6 +4,14 @@ const Helmet = require("react-helmet").default;
 const AsyncBootstrap = require("react-async-bootstrapper").default;
 const ReactDomServer = require("react-dom/server");
 
+const SheetsRegistry = require("react-jss").SheetsRegistry;
+const create = require("jss").create;
+const preset = require("jss-preset-default").default;
+const createMuiTheme = require("material-ui/styles").createMuiTheme;
+const createGenerateClassName = require("material-ui/styles/createGenerateClassName")
+  .default;
+const { pink, lightBlue } = require("material-ui/colors");
+
 // 服务端渲染更新数据默认值
 const getStoreState = stores => {
   return Object.keys(stores).reduce((result, stroeName) => {
@@ -20,7 +28,18 @@ module.exports = (bundle, template, req, res) => {
     const createApp = bundle.default;
 
     const stores = createStoreMap();
-    const app = createApp(stores, routerContext, req.url);
+
+    const theme = createMuiTheme({
+      palette: {
+        primary: lightBlue,
+        accent: pink,
+        type: "light"
+      }
+    });
+    const sheetsRegistry = new SheetsRegistry();
+    const jss = create(preset())
+    jss.options.createGenerateClassName = createGenerateClassName
+    const app = createApp(stores, routerContext, sheetsRegistry, jss, theme, req.url);
 
     AsyncBootstrap(app)
       .then(() => {
@@ -39,7 +58,8 @@ module.exports = (bundle, template, req, res) => {
           meta: helmet.meta.toString(),
           title: helmet.title.toString(),
           style: helmet.style.toString(),
-          link: helmet.link.toString()
+          link: helmet.link.toString(),
+          materialStyle: sheetsRegistry.toString()
         });
         res.send(html);
 

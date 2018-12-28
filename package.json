@@ -48,7 +48,8 @@
     "uglifyjs-webpack-plugin": "^1.1.2",
     "webpack": "^3.9.1",
     "webpack-dev-server": "^2.9.5",
-    "webpack-merge": "^4.1.5"
+    "webpack-merge": "^4.1.5",
+    "@babel/runtime": "7.0.0-beta.46"
   },
   "dependencies": {
     "axios": "^0.16.2",

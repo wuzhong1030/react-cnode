@@ -3,8 +3,18 @@ import ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
 import App from "./views/App";
 import { BrowserRouter } from "react-router-dom";
+import { MuiThemeProvider, createMuiTheme } from "material-ui/styles";
+import { lightBlue, pink } from "material-ui/colors";
 import { Provider } from "mobx-react";
 import AppState from "./store/app-state";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: lightBlue,
+    accent: pink,
+    type: "light"
+  }
+});
 
 const initialState = window.__INITIAL_STATE__ || {};
 const root = document.getElementById("app");
@@ -13,7 +23,9 @@ const render = C => {
     <AppContainer>
       <Provider appState={new AppState(initialState.appState)}>
         <BrowserRouter>
-          <C />
+          <MuiThemeProvider theme={theme}>
+            <C />
+          </MuiThemeProvider>
         </BrowserRouter>
       </Provider>
     </AppContainer>,
