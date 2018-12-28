@@ -1,5 +1,4 @@
 const express = require("express");
-// const ReactSSR = require("react-dom/server");
 const fs = require("fs");
 const path = require("path");
 const app = express();
@@ -33,11 +32,8 @@ if (!idDev) {
     path.join(__dirname, "../dist/server.ejs"),
     "utf-8"
   );
-  app.use("*", express.static(path.join(__dirname, "../dist")));
-  app.get("/", function(req, res, next) {
-    // const appString = ReactSSR.renderToString(serverEntry);
-    // const tempStr = template.replace("<!--app-->", appString);
-    // res.send(tempStr);
+  app.use("/public", express.static(path.join(__dirname, "../dist")));
+  app.get("*", function(req, res, next) {
     serverRender(serverEntry, template, req, res).catch(next);
   });
 } else {
@@ -53,4 +49,3 @@ app.use(function(err, req, res, next) {
 app.listen(3000, function() {
   console.log(`your server is runing on 3000`);
 });
-``;

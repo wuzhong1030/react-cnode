@@ -16,6 +16,10 @@ export default class TopicList extends Component {
     });
   }
 
+  componentDidCatch(error, errorInfo) {
+    console.log(error, errorInfo);
+  }
+
   render() {
     return (
       <div>
