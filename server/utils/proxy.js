@@ -2,7 +2,7 @@ const axios = require("axios");
 const querystring = require("query-string");
 
 module.exports = function(req, res, next) {
-  const baseUrl = "https://cnodejs.org/api/v1";
+  const baseUrl = "http://cnodejs.org/api/v1";
   const path = req.path;
   const user = req.session.user || {};
   const needAccessToken = req.query.needAccessToken;

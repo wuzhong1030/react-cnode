@@ -15,7 +15,7 @@ const Primary = ({ classes, topic }) => (
 );
 
 const Secondary = ({ classes, topic }) => (
-  <div className={classes.root}>
+  <span className={classes.root}>
     <span className={classes.userName}>{topic.author.loginname}</span>
     <span className={classes.count}>
       <span className={classes.replyCount}>{topic.reply_count}</span>
@@ -23,7 +23,7 @@ const Secondary = ({ classes, topic }) => (
       <span>{topic.visit_count}</span>
     </span>
     <span>创建时间：{topic.create_at}</span>
-  </div>
+  </span>
 );
 
 const TopicListItem = ({ onClick, topic }) => (
@@ -34,7 +34,7 @@ const TopicListItem = ({ onClick, topic }) => (
     <ListItemText
       primary={<PrimaryStyle topic={topic} />}
       secondary={<SecondaryStyle topic={topic} />}
-    />
+    ></ListItemText>
   </ListItem>
 );
 

@@ -8,10 +8,10 @@ import Container from "../layout/container";
 
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import LinearProgress from "@material-ui/core/LinearProgress";
 
 import TopicListItem from "./list-item";
-import { List } from "@material-ui/core/List";
+import List from "@material-ui/core/List";
+import { LinearProgress } from "@material-ui/core";
 
 // @inject(stores => ({ ...stores }))
 @inject(stores => {
@@ -52,14 +52,14 @@ export default class TopicList extends Component {
     const { topicStore } = this.props;
 
     const topicList = topicStore.topics;
-    const syncingTopics = topicStore.syncing;
-    console.log(topicList)
+    const syncing = topicStore.syncing;
     return (
       <Container>
         <Helmet>
           <title>this is topicList</title>
           <meta name="description" content="this is topicList description" />
         </Helmet>
+        {syncing ? <LinearProgress /> : null}
         <Tabs value={tableIndex} onChange={this.handleChange}>
           <Tab label="全部" />
           <Tab label="精华" />
@@ -68,12 +68,22 @@ export default class TopicList extends Component {
           <Tab label="招聘" />
           <Tab label="客户端测试" />
         </Tabs>
-        
+        {topicList.length ? (
+          <List>
+            {topicList.map(topic => (
+              <TopicListItem
+                topic={topic}
+                onClick={this.handleItemClick}
+                key={topic.id}
+              />
+            ))}
+          </List>
+        ) : null}
       </Container>
     );
   }
 }
 TopicList.wrappedComponent.propTypes = {
-  appState: PropTypes.instanceOf(AppState),
-  topicStore: PropTypes.instanceOf(TopicStore)
+  appState: PropTypes.instanceOf(AppState).isRequired,
+  topicStore: PropTypes.instanceOf(TopicStore).isRequired
 };

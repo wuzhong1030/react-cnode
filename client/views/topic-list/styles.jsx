@@ -33,7 +33,7 @@ const TopicSecondaryStyle = theme => {
     },
     userName: {
       marginRight: 20,
-      color: "#e9e9e9"
+      color: "#123456"
     },
     replyCount: {
         color: theme.palette.accent[300]
