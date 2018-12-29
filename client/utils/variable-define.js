@@ -1,5 +1,5 @@
 export const tabs = {
-  '': "全部",
+  "": "全部",
   share: "分享",
   job: "工作",
   ask: "问答",

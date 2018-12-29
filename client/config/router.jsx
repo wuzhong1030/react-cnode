@@ -13,6 +13,6 @@ export default () => [
     key="redirect"
   />,
   <Route path="/list" component={TopicList} key="list" />,
-  <Route exact path="/detail" component={TopicDetail} key="detail" />,
+  <Route exact path="/detail/:id" component={TopicDetail} key="detail" />,
   <Route exact path="/test" component={Test} key="test" />
 ];

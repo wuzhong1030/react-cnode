@@ -15,15 +15,24 @@ export class Topic {
 
 export class TopicStore {
   @observable topics;
+  @observable details;
   @observable syncing;
 
-  constructor({ syncing, topics } = { syncing: false, topics: [] }) {
+  constructor({ syncing = false, topics = [], details = [] } = {}) {
     this.syncing = syncing;
     this.topics = topics.map(topic => new Topic(createTopic(topic)));
+    this.details = details.map(topic => new Topic(createTopic(topic)));
   }
 
   addTopic(topic) {
     this.topics.push(new Topic(createTopic(topic)));
+  }
+
+  @computed get detailMap() {
+    return this.details.reduce((result, detail) => {
+      result[detail.id] = detail;
+      return result;
+    }, {});
   }
 
   @action fetchTopics(tab) {
@@ -50,6 +59,27 @@ export class TopicStore {
           reject(err);
           this.syncing = false;
         });
+    });
+  }
+
+  @action getTopicDetail(id) {
+    return new Promise((resolve, reject) => {
+      if (this.detailMap[id]) {
+        resolve(this.detailMap[id]);
+      } else {
+        get(`topic/${id}`, {
+          mdrender: false
+        })
+          .then(res => {
+            if (res.success) {
+              const topic = new Topic(createTopic(res.data));
+              this.details.push(topic);
+            } else {
+              reject(topic);
+            }
+          })
+          .catch(reject);
+      }
     });
   }
 }

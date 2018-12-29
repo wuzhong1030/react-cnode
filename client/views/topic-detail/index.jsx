@@ -6,12 +6,69 @@ import { inject, observer } from "mobx-react";
 import Container from "../layout/container";
 import { topicDetailStyle } from "./styles";
 import { withStyles } from "@material-ui/core/styles";
-import { Paper, LinearProgress } from "@material-ui/core/Paper";
-import { Reply } from "./reply";
+import { Paper, CircularProgress } from "@material-ui/core";
+import Reply from "./reply";
+import dateformat from 'dateformat'
 
-@inject(stores => stores.topicStore)
-export default class TopicDetail extends Component {
+@inject(stores => {
+  return {
+    topicStore: stores.topicStore
+  };
+})
+@observer
+class TopicDetail extends Component {
+  componentDidMount() {
+    this.props.topicStore.getTopicDetail(this.getTopicId());
+  }
+
+  getTopicId() {
+    return this.props.match.params.id;
+  }
+
   render() {
-    return <div>TopicDetail</div>;
+    const { classes } = this.props;
+    const topic = this.props.topicStore.detailMap[this.getTopicId()];
+    if (!topic) {
+      return (
+        <Container>
+          <section className={classes.loadingContainer}>
+            <CircularProgress />
+          </section>
+        </Container>
+      );
+    }
+    return (
+      <div>
+        <Container>
+          <Helmet>
+            <title>{topic.title}</title>
+          </Helmet>
+          <header className={classes.header}>
+            <h3>{topic.title}</h3>
+          </header>
+          <section className={classes.body}>
+            <p dangerouslySetInnerHTML={{ __html: marked(topic.content) }} />
+          </section>
+        </Container>
+        <Paper elevation={4} className={classes.replies}>
+          <header className={classes.replyHeader}>
+            <span>{`${topic.reply_count} 回复`}</span>
+            <span>{`最新回复 ${dateformat(topic.last_reply_at, 'yy年MM月dd日')}`}</span>
+          </header>
+          <section>
+            {topic.replies.map(reply => (
+              <Reply reply={reply} key={reply.id} />
+            ))}
+          </section>
+        </Paper>
+      </div>
+    );
   }
 }
+
+TopicDetail.propTypes = {
+  match: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(topicDetailStyle)(TopicDetail);

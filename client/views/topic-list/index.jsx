@@ -52,16 +52,18 @@ export default class TopicList extends Component {
   handleChange = (e, index) => {
     this.context.router.history.push({
       pathname: "/list",
-      search: `?tab=${index}`
+      search: index ? `?tab=${index}` : ""
     });
   };
 
   getTabValue = (search = this.props.location.search) => {
     const query = queryString.parse(search);
-    return query.tab || "all";
+    return query.tab || "";
   };
 
-  handleItemClick = () => {};
+  handleItemClick(topic) {
+    this.context.router.history.push(`/detail/${topic.id}`);
+  }
 
   render() {
     const { topicStore } = this.props;
@@ -86,7 +88,7 @@ export default class TopicList extends Component {
             {topicList.map(topic => (
               <TopicListItem
                 topic={topic}
-                onClick={this.handleItemClick}
+                onClick={this.handleItemClick.bind(this, topic)}
                 key={topic.id}
               />
             ))}
