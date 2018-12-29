@@ -18,20 +18,18 @@ export default (
   sheetsManager,
   url
 ) => (
-  <div>
-    <Provider {...stores}>
-      <StaticRouter context={routerContext} location={url}>
-        <JssProvider
-          registry={sheetsRegistry}
-          generateClassName={generateClassName}
-        >
-          <MuiThemeProvider theme={theme} sheetsManager={sheetsManager}>
-            <App />
-          </MuiThemeProvider>
-        </JssProvider>
-      </StaticRouter>
-    </Provider>
-  </div>
+  <Provider {...stores}>
+    <StaticRouter context={routerContext} location={url}>
+      <JssProvider
+        registry={sheetsRegistry}
+        generateClassName={generateClassName}
+      >
+        <MuiThemeProvider theme={theme} sheetsManager={sheetsManager}>
+          <App />
+        </MuiThemeProvider>
+      </JssProvider>
+    </StaticRouter>
+  </Provider>
 );
 
 export { createStoreMap };

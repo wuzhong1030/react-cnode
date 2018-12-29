@@ -1,8 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Routers from "../config/router";
 
-class App extends React.Component {
+class App extends Component {
   render() {
     return [
       <div key="nav">

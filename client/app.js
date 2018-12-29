@@ -16,7 +16,7 @@ const theme = createMuiTheme({
     type: "light"
   },
   typography: {
-    useNextVariants: true,
+    useNextVariants: true
   }
 });
 
@@ -39,8 +39,9 @@ const createApp = TheApp => {
 
 const initialState = window.__INITIAL_STATE__ || {};
 const root = document.getElementById("app");
+const renderMethod = module.hot ? ReactDOM.render : ReactDOM.hydrate;
 const render = C => {
-  ReactDOM.render(
+  renderMethod(
     <AppContainer>
       <Provider appState={new AppState(initialState.appState)}>
         <BrowserRouter>

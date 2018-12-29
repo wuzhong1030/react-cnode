@@ -1,4 +1,4 @@
-import { observable, computed, autorun, action } from "mobx";
+import { observable, computed, action } from "mobx";
 
 export default class AppState {
   constructor({ count, name } = { count: 0, name: "Stone" }) {
