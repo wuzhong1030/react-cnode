@@ -15,7 +15,7 @@ export default class Test extends Component {
   login = () => {
     axios
       .post("/api/user/login", {
-        accesstoken: "cb903f1c-eee1-40f2-b011-a6a8b66f17f0"
+        accesstoken: "7fdfdc69-1ba7-492f-b68c-35cfa3515112"
       })
       .then(res => {
         console.log(res);
@@ -35,8 +35,11 @@ export default class Test extends Component {
       });
   };
   render() {
+    const style = {
+      marginTop: '80px'
+    };
     return (
-      <div>
+      <div style={{...style}}>
         <button onClick={this.getTopics}>topics</button>
         <button onClick={this.login}>login</button>
         <button onClick={this.markAll}>markAll</button>

@@ -7,7 +7,7 @@ import { teal, amber } from "@material-ui/core/colors";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 import { Provider } from "mobx-react";
-import AppState from "./store/app-state";
+import { AppState, TopicStore } from "./store";
 
 const theme = createMuiTheme({
   palette: {
@@ -40,10 +40,14 @@ const createApp = TheApp => {
 const initialState = window.__INITIAL_STATE__ || {};
 const root = document.getElementById("app");
 const renderMethod = module.hot ? ReactDOM.render : ReactDOM.hydrate;
+
+const appState = new AppState(initialState.appState);
+const topicStore = new TopicStore(initialState.topicStore);
+
 const render = C => {
   renderMethod(
     <AppContainer>
-      <Provider appState={new AppState(initialState.appState)}>
+      <Provider appState={appState} topicStore={topicStore}>
         <BrowserRouter>
           <MuiThemeProvider theme={theme}>
             <C />
@@ -59,7 +63,7 @@ render(createApp(App));
 
 if (module.hot) {
   module.hot.accept("./views/App.jsx", () => {
-    var NextApp = require("./views/App.jsx").default;
+    const NextApp = require("./views/App.jsx").default;
     render(createApp(NextApp));
   });
 }

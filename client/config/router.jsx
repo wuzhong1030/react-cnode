@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import TopicDetail from "../views/topic-detail/index";
 import TopicList from "../views/topic-list/index";
+
 import Test from "../../client/test/api-test";
 
 export default () => [
