@@ -3,8 +3,7 @@ import { observer, inject } from "mobx-react";
 import { PropTypes } from "prop-types";
 import { AppState } from "../../store/app-state";
 import Helmet from "react-helmet";
-// import Button from "material-ui/Button";
-import Button from "@material-ui/core/Button";
+import Container from "../layout/container"
 
 @inject("appState")
 @observer
@@ -24,23 +23,17 @@ export default class TopicList extends Component {
 
   render() {
     return (
-      <div>
+      <Container>
         <Helmet>
           <title>this is topicList</title>
           <meta name="description" content="this is topicList description" />
         </Helmet>
-        <Button variant="contained" color="primary">
-          Primary
-        </Button>
-        <input type="text" onChange={this.changeName} />
-        TopicList {this.props.appState.msg}
-      </div>
+        <div>
+        xxx</div>
+      </Container>
     );
   }
 
-  changeName = e => {
-    this.props.appState.changeName(e.target.value);
-  };
 }
 
 TopicList.propTypes = {

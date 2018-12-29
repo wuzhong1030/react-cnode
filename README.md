@@ -1,5 +1,7 @@
 ### React 同构应用
 
+**React 16.2.0 + MobX 3.3.2 + axios 0.16.2 + webpack 3.9.1 + material-ui 3.7.1**
+
 #### 安装
 
 ```bash 

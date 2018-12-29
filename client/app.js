@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
 import App from "./views/App";
 import { BrowserRouter } from "react-router-dom";
-import { lightBlue, pink } from "@material-ui/core/colors";
+import { teal, amber } from "@material-ui/core/colors";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 import { Provider } from "mobx-react";
@@ -11,8 +11,8 @@ import AppState from "./store/app-state";
 
 const theme = createMuiTheme({
   palette: {
-    primary: lightBlue,
-    accent: pink,
+    primary: teal,
+    accent: amber,
     type: "light"
   },
   typography: {
