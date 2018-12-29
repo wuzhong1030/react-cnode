@@ -16,6 +16,9 @@ const TopicPrimaryStyle = theme => {
       borderRadius: 3,
       marginRight: 12,
       fontSize: "12px"
+    },
+    top: {
+        backgroundColor: theme.palette.accent[500],
     }
   };
 };

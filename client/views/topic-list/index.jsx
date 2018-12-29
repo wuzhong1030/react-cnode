@@ -12,47 +12,63 @@ import Tab from "@material-ui/core/Tab";
 import TopicListItem from "./list-item";
 import List from "@material-ui/core/List";
 import { LinearProgress } from "@material-ui/core";
+import queryString from "query-string";
+import { tabs } from "../../utils/variable-define";
 
-// @inject(stores => ({ ...stores }))
-@inject(stores => {
-  return {
-    appState: stores.appState,
-    topicStore: stores.topicStore
-  };
-})
+@inject(stores => ({ ...stores }))
+// @inject(stores => {
+//   return {
+//     appState: stores.appState,
+//     topicStore: stores.topicStore
+//   };
+// })
 @observer
 export default class TopicList extends Component {
-  state = {
-    tableIndex: 0
+  static contextTypes = {
+    router: PropTypes.object
   };
 
-  asyncBootstrap() {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        this.props.appState.count = 1000;
-        resolve(true);
-      });
-    });
-  }
+  // asyncBootstrap() {
+  //   return new Promise(resolve => {
+  //     setTimeout(() => {
+  //       resolve(true);
+  //     });
+  //   });
+  // }
 
   componentDidMount() {
+    const tab = this.getTabValue();
     this.props.topicStore.fetchTopics();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location.search !== this.props.location.search) {
+      this.props.topicStore.fetchTopics(
+        this.getTabValue(nextProps.location.search)
+      );
+    }
+  }
+
   handleChange = (e, index) => {
-    this.setState({
-      tableIndex: index
+    this.context.router.history.push({
+      pathname: "/list",
+      search: `?tab=${index}`
     });
+  };
+
+  getTabValue = (search = this.props.location.search) => {
+    const query = queryString.parse(search);
+    return query.tab || "all";
   };
 
   handleItemClick = () => {};
 
   render() {
-    const { tableIndex } = this.state;
     const { topicStore } = this.props;
 
     const topicList = topicStore.topics;
     const syncing = topicStore.syncing;
+
     return (
       <Container>
         <Helmet>
@@ -60,13 +76,10 @@ export default class TopicList extends Component {
           <meta name="description" content="this is topicList description" />
         </Helmet>
         {syncing ? <LinearProgress /> : null}
-        <Tabs value={tableIndex} onChange={this.handleChange}>
-          <Tab label="全部" />
-          <Tab label="精华" />
-          <Tab label="分享" />
-          <Tab label="问答" />
-          <Tab label="招聘" />
-          <Tab label="客户端测试" />
+        <Tabs value={this.getTabValue()} onChange={this.handleChange}>
+          {Object.keys(tabs).map(k => (
+            <Tab key={k} label={tabs[k]} value={k} />
+          ))}
         </Tabs>
         {topicList.length ? (
           <List>
@@ -86,4 +99,8 @@ export default class TopicList extends Component {
 TopicList.wrappedComponent.propTypes = {
   appState: PropTypes.instanceOf(AppState).isRequired,
   topicStore: PropTypes.instanceOf(TopicStore).isRequired
+};
+
+TopicList.propTypes = {
+  location: PropTypes.object.isRequired
 };

@@ -6,13 +6,21 @@ import Avatar from "@material-ui/core/Avatar";
 import PropTypes from "prop-types";
 import { TopicPrimaryStyle, TopicSecondaryStyle } from "./styles";
 import { withStyles } from "@material-ui/core/styles";
+import { tabs } from "../../utils/variable-define";
+import cs from "classnames";
 
-const Primary = ({ classes, topic }) => (
-  <div className={classes.root}>
-    <span className={classes.tab}>{topic.tab}</span>
-    <span className={classes.title}>{topic.title}</span>
-  </div>
-);
+const Primary = ({ classes, topic }) => {
+  const classNames = cs({
+    [classes.tab]: true,
+    [classes.top]: topic.top
+  });
+  return (
+    <div className={classes.root}>
+      <span className={classNames}>{topic.top ? "置顶" : tabs[topic.tab]}</span>
+      <span className={classes.title}>{topic.title}</span>
+    </div>
+  );
+};
 
 const Secondary = ({ classes, topic }) => (
   <span className={classes.root}>
@@ -34,7 +42,7 @@ const TopicListItem = ({ onClick, topic }) => (
     <ListItemText
       primary={<PrimaryStyle topic={topic} />}
       secondary={<SecondaryStyle topic={topic} />}
-    ></ListItemText>
+    />
   </ListItem>
 );
 
