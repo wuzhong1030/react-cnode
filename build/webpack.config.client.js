@@ -7,7 +7,7 @@ const baseConfig = require("./webpack.config.base");
 
 const config = webpackMerge(baseConfig, {
   entry: {
-    app: path.join(__dirname, "../client/app.js")
+    app: path.join(__dirname, "../client/index.js")
   },
   output: {
     filename: "[name].[hash:5].js"
@@ -30,7 +30,7 @@ if (isDev) {
   config.devtool = "#cheap-module-eval-source-map";
   config.entry = [
     "react-hot-loader/patch",
-    path.join(__dirname, "../client/app.js")
+    path.join(__dirname, "../client/index.js")
   ];
   config.devServer = {
     host: "localhost",
