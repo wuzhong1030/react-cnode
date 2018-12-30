@@ -42,6 +42,25 @@ class UserLogin extends Component {
     });
   }
 
+  handleLogin() {
+    if (!this.state.accessToken) {
+      return this.setState({
+        helpText: "请输入accessToken"
+      });
+    }
+    this.setState({
+      helpText: ""
+    });
+    return this.props.appState
+      .login(this.state.accessToken)
+      .then(() => {
+        this.context.router.history.replace("/user/info");
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   render() {
     const { classes } = this.props;
     return (
