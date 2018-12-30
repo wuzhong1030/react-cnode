@@ -13,6 +13,13 @@ module.exports = {
         test: /\.(jsx|js)$/,
         loader: "babel-loader",
         exclude: /node_modules/
+      },
+      {
+        test: /\.(png|jpg|svg|gif)$/,
+        loader: "flie-loader",
+        options: {
+          name: "[name].[ext]?[hash]"
+        }
       }
     ]
   }
