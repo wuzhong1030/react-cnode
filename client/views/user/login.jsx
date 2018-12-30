@@ -27,6 +27,7 @@ class UserLogin extends Component {
       helpText: ""
     };
     this.handleInput = this.handleInput.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   componentWillMount() {

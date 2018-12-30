@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+import { withStyles } from "@material-ui/core/styles";
+import userStyle from "./style/user-style";
 
 const UserWrapper = () => {
-  return <div />;
+  const { classes } = this.props;
+  return <div className={classes.root}>1111</div>;
 };
 
-export default UserWrapper;
+export default withStyles(userStyle)(UserWrapper);

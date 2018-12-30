@@ -8,7 +8,6 @@ export default () => {
       alignItems: "center",
       justifyCenter: "space-between",
       padding: 20,
-      paddingTop: 20,
       paddingBottom: 40
     },
     avatarImg: {

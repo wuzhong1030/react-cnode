@@ -9,9 +9,13 @@ export default class AppState {
 
   @action login(accessToken) {
     return new Promise((resolve, reject) => {
-      post("/api/user/login", {
-        accessToken
-      })
+      post(
+        "/user/login",
+        {},
+        {
+          accessToken
+        }
+      )
         .then(res => {
           if (res.success) {
             this.user.isLogin = true;
