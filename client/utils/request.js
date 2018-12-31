@@ -11,7 +11,7 @@ const generateUrl = (url, params) => {
   return `${baseUrl}/api${url}${symbol}${str.substring(0, str.length - 1)}`;
 };
 
-export const get = (url, params) => {
+export const get = (url, params = {}) => {
   return new Promise((resolve, reject) => {
     axios
       .get(generateUrl(url, params))

@@ -18,7 +18,7 @@ class UserWrapper extends Component {
 
   render() {
     const { classes } = this.props;
-    const user = {};
+    const user = this.props.user;
     return (
       <Container>
         <div className={classes.avatar}>
@@ -40,6 +40,10 @@ class UserWrapper extends Component {
     );
   }
 }
+
+UserWrapper.wrappedComponent.propTypes = {
+  user: PropTypes.object.isRequired
+};
 
 UserWrapper.propTypes = {
   classes: PropTypes.object.isRequired,

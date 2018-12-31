@@ -1,10 +1,16 @@
 import { observable, computed, action } from "mobx";
 import { post } from "../utils/request";
+import { get } from "https";
 
 export default class AppState {
   @observable user = {
     isLogin: false,
-    info: {}
+    info: {},
+    detail: {
+      recentTopics: [],
+      recentReplies: [],
+      syncing: false
+    }
   };
 
   @action login(accesstoken) {
@@ -26,6 +32,27 @@ export default class AppState {
           }
         })
         .catch(reject);
+    });
+  }
+
+  @action getUserDetail() {
+    this.user.detail.syncing = true;
+    return new Promise((resolve, reject) => {
+      get(`/user/${this.user.info.loginname}`)
+        .then(res => {
+          if (res.success) {
+            this.user.detail.recentTopics = res.data.recent_topics;
+            this.user.detail.recentReplies = res.data.recent_replies;
+            resolve();
+          } else {
+            reject(res);
+          }
+          this.user.detail.syncing = false;
+        })
+        .catch(err => {
+          this.user.detail.syncing = false;
+          reject(err);
+        });
     });
   }
 }
