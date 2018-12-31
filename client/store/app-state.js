@@ -1,6 +1,5 @@
 import { observable, computed, action } from "mobx";
-import { post } from "../utils/request";
-import { get } from "https";
+import { post, get } from "../utils/request";
 
 export default class AppState {
   @observable user = {
@@ -10,6 +9,10 @@ export default class AppState {
       recentTopics: [],
       recentReplies: [],
       syncing: false
+    },
+    collections: {
+      syncing: false,
+      list: []
     }
   };
 
@@ -51,6 +54,26 @@ export default class AppState {
         })
         .catch(err => {
           this.user.detail.syncing = false;
+          reject(err);
+        });
+    });
+  }
+
+  @action getUserCollention() {
+    this.user.collections.syncing = true;
+    return new Promise((resolve, reject) => {
+      get(`/topic_collect/${this.user.info.loginname}`)
+        .then(res => {
+          if (res.success) {
+            this.user.collections.list = res.data;
+            resolve();
+          } else {
+            reject(res);
+          }
+          this.user.collections.syncing = false;
+        })
+        .catch(err => {
+          this.user.collections.syncing = false;
           reject(err);
         });
     });

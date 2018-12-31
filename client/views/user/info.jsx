@@ -14,10 +14,7 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
-import { infoStyle } from "./style/user-info-style";
-import { ListItemText } from "@material-ui/core/ListItemText";
-import { Paper } from "@material-ui/core/Paper";
-import { Typography } from "@material-ui/core/Typography";
+import infoStyle from "./style/user-info-style";
 
 const TopicItem = ({ topic, onClick }) => {
   return (
@@ -33,12 +30,14 @@ const TopicItem = ({ topic, onClick }) => {
 
 TopicItem.propTypes = {
   topic: PropTypes.object.isRequired,
-  onClick: PropTypes.func
+  onClick: PropTypes.func.isRequired
 };
 
 @inject(stores => {
-  user: stores.appState.user;
-  appState: appState;
+  return {
+    user: stores.appState.user,
+    appState: stores.appState
+  };
 })
 @observer
 class UserInfo extends Component {
@@ -50,12 +49,16 @@ class UserInfo extends Component {
       this.context.router.history.replace("/user/login");
     } else {
       this.props.appState.getUserDetail();
+      this.props.appState.getUserCollention();
     }
+  }
+  handleItemClick(id) {
+    this.context.router.history.push(`/detail/${id}`);
   }
   render() {
     const { classes } = this.props;
-    const topics = this.props.user.dertail.recentTopics;
-    const replies = this.props.user.dertail.recentReplies;
+    const topics = this.props.user.detail.recentTopics;
+    const replies = this.props.user.detail.recentReplies;
     const collections = [];
     return (
       <UserWrapper>
@@ -69,10 +72,34 @@ class UserInfo extends Component {
                 <List>
                   {topics.length > 0 ? (
                     topics.map(topic => (
-                      <TopicItem topic={topic} key={topic.id} />
+                      <TopicItem
+                        topic={topic}
+                        key={topic.id}
+                        onClick={() => this.handleItemClick(topic.id)}
+                      />
                     ))
                   ) : (
                     <Typography>最近没有发布过话题</Typography>
+                  )}
+                </List>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Paper elevation={2}>
+                <Typography className={classes.partTitle}>
+                  <span>最新回复</span>
+                </Typography>
+                <List>
+                  {replies.length > 0 ? (
+                    replies.map(reply => (
+                      <TopicItem
+                        topic={reply}
+                        key={reply.id}
+                        onClick={() => this.handleItemClick(reply.id)}
+                      />
+                    ))
+                  ) : (
+                    <Typography>还没有回复</Typography>
                   )}
                 </List>
               </Paper>
@@ -85,7 +112,11 @@ class UserInfo extends Component {
                 <List>
                   {collections.length > 0 ? (
                     collections.map(topic => (
-                      <TopicItem topic={topic} key={topic.id} />
+                      <TopicItem
+                        topic={topic}
+                        key={topic.id}
+                        onClick={() => this.handleItemClick(topic.id)}
+                      />
                     ))
                   ) : (
                     <Typography>还没有收藏的话题</Typography>

@@ -35,7 +35,7 @@ class MainAppBar extends Component {
     router: PropTypes.object
   };
   onHomeIconClick = () => {
-    this.context.router.history.push("/list?tab=''");
+    this.context.router.history.push("/list");
   };
   handleLogin = () => {
     if (this.props.appState.user.isLogin) {
