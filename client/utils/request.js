@@ -7,7 +7,8 @@ const generateUrl = (url, params) => {
     result += `${key}=${params[key]}&`;
     return result;
   }, "");
-  return `${baseUrl}/api${url}?${str.substring(0, str.length - 1)}`;
+  const symbol = str ? "?" : "";
+  return `${baseUrl}/api${url}${symbol}${str.substring(0, str.length - 1)}`;
 };
 
 export const get = (url, params) => {
@@ -29,7 +30,7 @@ export const get = (url, params) => {
 export const post = (url, params, data) => {
   return new Promise((resolve, reject) => {
     axios
-      .get(generateUrl(url, params), data)
+      .post(generateUrl(url, params), data)
       .then(res => {
         const _data = res.data;
         if (_data && _data.success) {

@@ -7,13 +7,13 @@ export default class AppState {
     info: {}
   };
 
-  @action login(accessToken) {
+  @action login(accesstoken) {
     return new Promise((resolve, reject) => {
       post(
         "/user/login",
         {},
         {
-          accessToken
+          accesstoken
         }
       )
         .then(res => {

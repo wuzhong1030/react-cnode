@@ -41,6 +41,9 @@ class UserLogin extends Component {
     this.setState({
       accessToken: e.target.value.trim()
     });
+    this.setState({
+      helpText: ""
+    });
   }
 
   handleLogin() {
@@ -54,11 +57,13 @@ class UserLogin extends Component {
     });
     return this.props.appState
       .login(this.state.accessToken)
-      .then((res) => {
-        console.log(res)
+      .then(res => {
         this.context.router.history.replace("/user/info");
       })
       .catch(err => {
+        this.setState({
+          helpText: err.data.error_msg
+        });
         console.log(err);
       });
   }

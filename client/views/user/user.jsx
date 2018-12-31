@@ -5,7 +5,14 @@ import { withStyles } from "@material-ui/core/styles";
 import userStyle from "./style/user-style";
 import Container from "../layout/container";
 import Avatar from "@material-ui/core/Avatar";
+import { inject, observer } from "mobx-react";
 
+@inject(stores => {
+  return {
+    user: stores.appState.user
+  };
+})
+@observer
 class UserWrapper extends Component {
   componentDidMount() {}
 
