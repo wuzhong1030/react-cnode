@@ -16,7 +16,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|svg|gif)$/,
-        loader: "flie-loader",
+        loader: "file-loader",
         options: {
           name: "[name].[ext]?[hash]"
         }

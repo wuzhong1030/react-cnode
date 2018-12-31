@@ -77,7 +77,8 @@ class UserLogin extends Component {
             className={classes.input}
           />
           <Button
-            color="accent"
+            variant="contained"
+            color="primary"
             onClick={this.handleLogin}
             className={classes.loginButton}
           >

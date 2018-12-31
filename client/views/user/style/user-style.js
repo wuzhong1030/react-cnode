@@ -1,14 +1,12 @@
+import avatarBg from "./bg.jpg";
 export default () => {
   return {
     root: {},
     avatar: {
       position: "relative",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyCenter: "space-between",
-      padding: 20,
-      paddingBottom: 40
+     
+      height: 400,
+
     },
     avatarImg: {
       width: 80,
@@ -22,6 +20,10 @@ export default () => {
     bg: {
       backgroundImage: `url(${avatarBg})`,
       backgroundSize: "cover",
+      display: "flex",
+      alignItems: "center",
+      flexDirection: 'column',
+      justifyContent: "center",
       position: "absolute",
       left: 0,
       right: 0,
@@ -34,7 +36,8 @@ export default () => {
         right: 0,
         top: 0,
         bottom: 0,
-        backgroundColor: "rgba(0,0,0,0.6)"
+        backgroundColor: "rgba(0,0,0,0.2)",
+        filter: 'blur(5px)'
       }
     }
   };
