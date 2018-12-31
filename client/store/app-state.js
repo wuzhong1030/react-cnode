@@ -20,7 +20,7 @@ export default class AppState {
           if (res.success) {
             this.user.isLogin = true;
             this.user.info = res.data;
-            resolve();
+            resolve(res.data);
           } else {
             reject(res);
           }

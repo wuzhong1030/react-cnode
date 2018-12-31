@@ -54,7 +54,8 @@ class UserLogin extends Component {
     });
     return this.props.appState
       .login(this.state.accessToken)
-      .then(() => {
+      .then((res) => {
+        console.log(res)
         this.context.router.history.replace("/user/info");
       })
       .catch(err => {
@@ -71,6 +72,7 @@ class UserLogin extends Component {
             label="accessToken"
             placeholder="请输入accessToken"
             required
+            id="standard-error"
             helperText={this.state.helpText}
             value={this.state.accessToken}
             onChange={this.handleInput}
