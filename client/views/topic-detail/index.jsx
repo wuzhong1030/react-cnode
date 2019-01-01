@@ -8,7 +8,8 @@ import { topicDetailStyle } from "./styles";
 import { withStyles } from "@material-ui/core/styles";
 import { Paper, CircularProgress } from "@material-ui/core";
 import Reply from "./reply";
-import dateformat from 'dateformat'
+import SimpleMDE from "react-simplemde-editor";
+import dateformat from "dateformat";
 
 @inject(stores => {
   return {
@@ -53,8 +54,23 @@ class TopicDetail extends Component {
         <Paper elevation={4} className={classes.replies}>
           <header className={classes.replyHeader}>
             <span>{`${topic.reply_count} 回复`}</span>
-            <span>{`最新回复 ${dateformat(topic.last_reply_at, 'yy年MM月dd日')}`}</span>
+            <span>{`最新回复 ${dateformat(
+              topic.last_reply_at,
+              "yy年MM月dd日"
+            )}`}</span>
           </header>
+          <section>
+            <SimpleMDE
+              onChange={handleNewReplyChange}
+              value={this.state.newReply}
+              options={{
+                toolbar: false,
+                autofocus: false,
+                spellChecker: false,
+                placeholder: "添加回复"
+              }}
+            />
+          </section>
           <section>
             {topic.replies.map(reply => (
               <Reply reply={reply} key={reply.id} />

@@ -59,7 +59,7 @@ class UserInfo extends Component {
     const { classes } = this.props;
     const topics = this.props.user.detail.recentTopics;
     const replies = this.props.user.detail.recentReplies;
-    const collections = [];
+    const collections = this.props.user.detail.collections.List;
     return (
       <UserWrapper>
         <div className={classes.root}>
