@@ -1,16 +1,48 @@
 import { observable, toJS, computed, action, extendObservable } from 'mobx';
-import { topicSchema } from '../utils/variable-define';
-import { get } from '../utils/request';
+import { topicSchema, replySchema } from '../utils/variable-define';
+import { get, post } from '../utils/request';
 
 const createTopic = topic => {
   return Object.assign({}, topicSchema, topic);
 };
 
+const createReply = reply => {
+  return Object.assign({}, replySchema, reply);
+};
+
 export class Topic {
-  constructor(data) {
+  constructor(data, isDetail) {
     extendObservable(this, data);
+    this.isDetail = isDetail;
   }
   @observable syncing = false;
+  @observable createReplies = [];
+  @action doReply(content) {
+    return new Promise((resolve, reject) => {
+      post(
+        `/topic/${this.id}/replies`,
+        {
+          needAccessToken: true,
+        },
+        { content }
+      )
+        .then(res => {
+          if (res.success) {
+            this.createReplies.push(
+              createReply({
+                id: res.data.reply_id,
+                content,
+                create_at: Date.now(),
+              })
+            );
+            resolve();
+          } else {
+            reject(res);
+          }
+        })
+        .catch(reject);
+    });
+  }
 }
 
 export class TopicStore {

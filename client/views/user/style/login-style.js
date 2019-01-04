@@ -11,7 +11,9 @@ export default () => {
     input: {
       width: inputWidth,
       marginBottom: 20,
-      autocomplete: 'off',
+      'input': {
+        autocomplete: 'off',
+      }
     },
     loginButton: {
       width: inputWidth,

@@ -4,7 +4,7 @@ export default () => {
     root: {},
     avatar: {
       position: 'relative',
-      height: 300,
+      height: 260,
     },
     avatarImg: {
       width: 80,

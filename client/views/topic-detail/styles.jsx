@@ -30,6 +30,30 @@ export const topicDetailStyle = theme => {
       display: 'flex',
       justifyContent: 'space-between',
     },
+    noLogin: {
+      
+    },
+    mgl: {
+      marginLeft: 10,
+    },
+    replyEditor: {
+      position: 'relative',
+      padding: 24,
+      borderBottom: '1px solid #dfdfdf',
+      '& .CodeMirror': {
+        height: 150,
+        minHeight: 'auto',
+        '& .CodeMirror-scroll': {
+          minHeight: 'auto',
+        },
+      },
+    },
+    replyBtn: {
+      position: 'absolute',
+      right: 40,
+      bottom: 80,
+      zIndex: 10
+    },
     replyBody: {
       padding: 20,
     },

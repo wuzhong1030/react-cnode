@@ -16,7 +16,7 @@ module.exports = function(req, res, next) {
     accesstoken: needAccessToken && req.method === "GET" ? user.accessToken : ""
   });
   if (query.needAccessToken) delete query.needAccessToken;
-  console.log(query)
+  console.log(user)
   axios
     .post(`${baseUrl}${path}`, {
       method: req.method,
@@ -39,6 +39,7 @@ module.exports = function(req, res, next) {
       }
     })
     .catch(err => {
+      console.log(err.response)
       if (err.response) {
         res.status(500).send(err.response.data);
       } else {
