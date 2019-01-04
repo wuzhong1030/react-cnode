@@ -1,5 +1,5 @@
-import { observable, computed, action } from "mobx";
-import { post, get } from "../utils/request";
+import { observable, computed, action } from 'mobx';
+import { post, get } from '../utils/request';
 
 export default class AppState {
   @observable user = {
@@ -8,21 +8,21 @@ export default class AppState {
     detail: {
       recentTopics: [],
       recentReplies: [],
-      syncing: false
+      syncing: false,
     },
     collections: {
       syncing: false,
-      list: []
-    }
+      list: [],
+    },
   };
 
   @action login(accesstoken) {
     return new Promise((resolve, reject) => {
       post(
-        "/user/login",
+        '/user/login',
         {},
         {
-          accesstoken
+          accesstoken,
         }
       )
         .then(res => {

@@ -2,25 +2,25 @@ export default theme => {
   return {
     root: {
       padding: 6,
-      minHeight: 400
+      minHeight: 400,
     },
     gridContainer: {
-      height: "100%"
+      height: '100%',
     },
     paper: {
-      height: "100%"
+      height: '100%',
     },
     partTitle: {
-      lineHeight: "40px",
+      lineHeight: '40px',
       paddingLeft: 20,
       backgroundColor: theme.palette.primary[700],
-      color: "#fff"
+      color: '#fff',
     },
-    "@media screen and (max-width: 480px)": {
+    '@media screen and (max-width: 480px)': {
       root: {
         padding: 10,
-        minHeight: 300
-      }
-    }
+        minHeight: 300,
+      },
+    },
   };
 };

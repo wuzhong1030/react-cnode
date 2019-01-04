@@ -1,22 +1,22 @@
-import React from "react";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import PropTypes from "prop-types";
-import { TopicPrimaryStyle, TopicSecondaryStyle } from "./styles";
-import { withStyles } from "@material-ui/core/styles";
-import { tabs } from "../../utils/variable-define";
-import cs from "classnames";
+import React from 'react';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import PropTypes from 'prop-types';
+import { TopicPrimaryStyle, TopicSecondaryStyle } from './styles';
+import { withStyles } from '@material-ui/core/styles';
+import { tabs } from '../../utils/variable-define';
+import cs from 'classnames';
 
 const Primary = ({ classes, topic }) => {
   const classNames = cs({
     [classes.tab]: true,
-    [classes.top]: topic.top
+    [classes.top]: topic.top,
   });
   return (
     <div className={classes.root}>
-      <span className={classNames}>{topic.top ? "置顶" : tabs[topic.tab]}</span>
+      <span className={classNames}>{topic.top ? '置顶' : tabs[topic.tab]}</span>
       <span className={classes.title}>{topic.title}</span>
     </div>
   );
@@ -50,14 +50,14 @@ const PrimaryStyle = withStyles(TopicPrimaryStyle)(Primary);
 const SecondaryStyle = withStyles(TopicSecondaryStyle)(Secondary);
 
 Primary.propTypes = {
-  topic: PropTypes.object.isRequired
+  topic: PropTypes.object.isRequired,
 };
 Secondary.propTypes = {
-  topic: PropTypes.object.isRequired
+  topic: PropTypes.object.isRequired,
 };
 TopicListItem.propTypes = {
   onClick: PropTypes.func.isRequired,
-  topic: PropTypes.object.isRequired
+  topic: PropTypes.object.isRequired,
 };
 
 export default TopicListItem;

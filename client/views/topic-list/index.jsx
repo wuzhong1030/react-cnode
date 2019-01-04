@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import { observer, inject } from "mobx-react";
-import { PropTypes } from "prop-types";
-import { AppState, TopicStore } from "../../store";
+import React, { Component } from 'react';
+import { observer, inject } from 'mobx-react';
+import { PropTypes } from 'prop-types';
+import { AppState, TopicStore } from '../../store';
 
-import Helmet from "react-helmet";
-import Container from "../layout/container";
+import Helmet from 'react-helmet';
+import Container from '../layout/container';
 
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
-import TopicListItem from "./list-item";
-import List from "@material-ui/core/List";
-import { LinearProgress } from "@material-ui/core";
-import queryString from "query-string";
-import { tabs } from "../../utils/variable-define";
+import TopicListItem from './list-item';
+import List from '@material-ui/core/List';
+import { LinearProgress } from '@material-ui/core';
+import queryString from 'query-string';
+import { tabs } from '../../utils/variable-define';
 
 @inject(stores => ({ ...stores }))
 // @inject(stores => {
@@ -25,7 +25,7 @@ import { tabs } from "../../utils/variable-define";
 @observer
 export default class TopicList extends Component {
   static contextTypes = {
-    router: PropTypes.object
+    router: PropTypes.object,
   };
 
   // asyncBootstrap() {
@@ -51,14 +51,14 @@ export default class TopicList extends Component {
 
   handleChange = (e, index) => {
     this.context.router.history.push({
-      pathname: "/list",
-      search: index ? `?tab=${index}` : ""
+      pathname: '/list',
+      search: index ? `?tab=${index}` : '',
     });
   };
 
   getTabValue = (search = this.props.location.search) => {
     const query = queryString.parse(search);
-    return query.tab || "";
+    return query.tab || '';
   };
 
   handleItemClick(topic) {
@@ -100,9 +100,9 @@ export default class TopicList extends Component {
 }
 TopicList.wrappedComponent.propTypes = {
   appState: PropTypes.instanceOf(AppState).isRequired,
-  topicStore: PropTypes.instanceOf(TopicStore).isRequired
+  topicStore: PropTypes.instanceOf(TopicStore).isRequired,
 };
 
 TopicList.propTypes = {
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
 };

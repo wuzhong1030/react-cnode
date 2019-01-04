@@ -1,6 +1,6 @@
-import { observable, toJS, computed, action, extendObservable } from "mobx";
-import { topicSchema } from "../utils/variable-define";
-import { get } from "../utils/request";
+import { observable, toJS, computed, action, extendObservable } from 'mobx';
+import { topicSchema } from '../utils/variable-define';
+import { get } from '../utils/request';
 
 const createTopic = topic => {
   return Object.assign({}, topicSchema, topic);
@@ -39,9 +39,9 @@ export class TopicStore {
     return new Promise((resolve, reject) => {
       this.syncing = true;
       this.topics = [];
-      get("/topics", {
+      get('/topics', {
         mdrender: false,
-        tab
+        tab,
       })
         .then(res => {
           if (res.success) {
@@ -68,7 +68,7 @@ export class TopicStore {
         resolve(this.detailMap[id]);
       } else {
         get(`topic/${id}`, {
-          mdrender: false
+          mdrender: false,
         })
           .then(res => {
             if (res.success) {

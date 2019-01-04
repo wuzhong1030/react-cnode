@@ -1,30 +1,30 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { AppContainer } from "react-hot-loader";
-import App from "./views/App";
-import { BrowserRouter } from "react-router-dom";
-import { teal, amber } from "@material-ui/core/colors";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
+import App from './views/App';
+import { BrowserRouter } from 'react-router-dom';
+import { teal, amber } from '@material-ui/core/colors';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-import { Provider } from "mobx-react";
-import { AppState, TopicStore } from "./store";
+import { Provider } from 'mobx-react';
+import { AppState, TopicStore } from './store';
 
 const theme = createMuiTheme({
   palette: {
     primary: teal,
     accent: amber,
-    type: "light"
+    type: 'light',
   },
   typography: {
-    useNextVariants: true
-  }
+    useNextVariants: true,
+  },
 });
 
 const createApp = TheApp => {
   class Main extends React.Component {
     // Remove the server-side injected CSS.
     componentDidMount() {
-      const jssStyles = document.getElementById("jss-server-side");
+      const jssStyles = document.getElementById('jss-server-side');
       if (jssStyles && jssStyles.parentNode) {
         jssStyles.parentNode.removeChild(jssStyles);
       }
@@ -38,7 +38,7 @@ const createApp = TheApp => {
 };
 
 const initialState = window.__INITIAL_STATE__ || {};
-const root = document.getElementById("app");
+const root = document.getElementById('app');
 const renderMethod = module.hot ? ReactDOM.render : ReactDOM.hydrate;
 
 const appState = new AppState(initialState.appState);
@@ -62,8 +62,8 @@ const render = C => {
 render(createApp(App));
 
 if (module.hot) {
-  module.hot.accept("./views/App.jsx", () => {
-    const NextApp = require("./views/App.jsx").default;
+  module.hot.accept('./views/App.jsx', () => {
+    const NextApp = require('./views/App.jsx').default;
     render(createApp(NextApp));
   });
 }

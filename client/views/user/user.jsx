@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import UserIcon from "@material-ui/icons/AccountCircle";
-import { withStyles } from "@material-ui/core/styles";
-import userStyle from "./style/user-style";
-import Container from "../layout/container";
-import Avatar from "@material-ui/core/Avatar";
-import { inject, observer } from "mobx-react";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import UserIcon from '@material-ui/icons/AccountCircle';
+import { withStyles } from '@material-ui/core/styles';
+import userStyle from './style/user-style';
+import Container from '../layout/container';
+import Avatar from '@material-ui/core/Avatar';
+import { inject, observer } from 'mobx-react';
 
 @inject(stores => {
   return {
-    user: stores.appState.user
+    user: stores.appState.user,
   };
 })
 @observer
@@ -23,15 +23,15 @@ class UserWrapper extends Component {
       <Container>
         <div className={classes.avatar}>
           <div className={classes.bg}>
-            {user.avatar_url ? (
-              <Avatar className={classes.avatarImg} src={user.avatar_url} />
+            {user.info.avatar_url ? (
+              <Avatar className={classes.avatarImg} src={user.info.avatar_url} />
             ) : (
               <Avatar className={classes.avatarImg}>
                 <UserIcon />
               </Avatar>
             )}
             <span className={classes.userName}>
-              {user.loginname || "未登录"}
+              {user.info.loginname || '未登录'}
             </span>
           </div>
         </div>
@@ -42,12 +42,12 @@ class UserWrapper extends Component {
 }
 
 UserWrapper.wrappedComponent.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
 };
 
 UserWrapper.propTypes = {
   classes: PropTypes.object.isRequired,
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
 };
 
 export default withStyles(userStyle)(UserWrapper);

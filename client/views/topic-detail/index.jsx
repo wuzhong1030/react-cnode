@@ -1,29 +1,40 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import marked from "marked";
-import { Helmet } from "react-helmet";
-import { inject, observer } from "mobx-react";
-import Container from "../layout/container";
-import { topicDetailStyle } from "./styles";
-import { withStyles } from "@material-ui/core/styles";
-import { Paper, CircularProgress } from "@material-ui/core";
-import Reply from "./reply";
-import SimpleMDE from "react-simplemde-editor";
-import dateformat from "dateformat";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import marked from 'marked';
+import { Helmet } from 'react-helmet';
+import { inject, observer } from 'mobx-react';
+import Container from '../layout/container';
+import { topicDetailStyle } from './styles';
+import { withStyles } from '@material-ui/core/styles';
+import { Paper, CircularProgress } from '@material-ui/core';
+import Reply from './reply';
+import SimpleMDE from 'react-simplemde-editor';
+import dateformat from 'dateformat';
 
 @inject(stores => {
   return {
-    topicStore: stores.topicStore
+    topicStore: stores.topicStore,
   };
 })
 @observer
 class TopicDetail extends Component {
+  state = {
+    newReply: ''
+  }
+  constructor(props) {
+    super(props)
+    this.handleNewReplyChange = this.handleNewReplyChange.bind(this)
+  }
   componentDidMount() {
     this.props.topicStore.getTopicDetail(this.getTopicId());
   }
 
   getTopicId() {
     return this.props.match.params.id;
+  }
+
+  handleNewReplyChange() {
+
   }
 
   render() {
@@ -56,18 +67,18 @@ class TopicDetail extends Component {
             <span>{`${topic.reply_count} 回复`}</span>
             <span>{`最新回复 ${dateformat(
               topic.last_reply_at,
-              "yy年MM月dd日"
+              'yy年MM月dd日'
             )}`}</span>
           </header>
           <section>
             <SimpleMDE
-              onChange={handleNewReplyChange}
+              onChange={this.handleNewReplyChange}
               value={this.state.newReply}
               options={{
                 toolbar: false,
                 autofocus: false,
                 spellChecker: false,
-                placeholder: "添加回复"
+                placeholder: '添加回复',
               }}
             />
           </section>
@@ -84,7 +95,7 @@ class TopicDetail extends Component {
 
 TopicDetail.propTypes = {
   match: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(topicDetailStyle)(TopicDetail);

@@ -1,11 +1,11 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
-import TopicDetail from "../views/topic-detail/index";
-import TopicList from "../views/topic-list/index";
-import UserLogin from "../views/user/login";
-import UserInfo from "../views/user/info";
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import TopicDetail from '../views/topic-detail/index';
+import TopicList from '../views/topic-list/index';
+import UserLogin from '../views/user/login';
+import UserInfo from '../views/user/info';
 
-import Test from "../../client/test/api-test";
+import Test from '../../client/test/api-test';
 
 export default () => [
   <Route
@@ -18,5 +18,5 @@ export default () => [
   <Route exact path="/detail/:id" component={TopicDetail} key="detail" />,
   <Route exact path="/user/login" component={UserLogin} key="login" />,
   <Route exact path="/user/info" component={UserInfo} key="info" />,
-  <Route exact path="/test" component={Test} key="test" />
+  <Route exact path="/test" component={Test} key="test" />,
 ];

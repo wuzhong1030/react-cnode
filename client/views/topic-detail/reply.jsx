@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import marked from "marked";
-import Avatar from "@material-ui/core/Avatar";
-import { replyStyle } from "./styles";
-import { withStyles } from "@material-ui/core/styles";
-import dateformat from "dateformat";
+import React from 'react';
+import PropTypes from 'prop-types';
+import marked from 'marked';
+import Avatar from '@material-ui/core/Avatar';
+import { replyStyle } from './styles';
+import { withStyles } from '@material-ui/core/styles';
+import dateformat from 'dateformat';
 
 const Reply = ({ reply, classes }) => {
   return (
@@ -14,7 +14,10 @@ const Reply = ({ reply, classes }) => {
       </div>
       <div className={classes.right}>
         <span className={classes.loginname}>{`${reply.author.loginname}`}</span>
-        <span className={classes.createAt}>{`${dateformat(reply.create_at, "yyyy-MM-dd")}`}</span>
+        <span className={classes.createAt}>{`${dateformat(
+          reply.create_at,
+          'yyyy-MM-dd'
+        )}`}</span>
         <p dangerouslySetInnerHTML={{ __html: marked(reply.content) }} />
       </div>
     </div>
@@ -23,7 +26,7 @@ const Reply = ({ reply, classes }) => {
 
 Reply.propTypes = {
   reply: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(replyStyle)(Reply);

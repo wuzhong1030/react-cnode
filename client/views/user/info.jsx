@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import UserWrapper from "./user";
-import PropTypes from "prop-types";
-import { inject, observer } from "mobx-react";
+import React, { Component } from 'react';
+import UserWrapper from './user';
+import PropTypes from 'prop-types';
+import { inject, observer } from 'mobx-react';
 
 import {
   Grid,
@@ -10,11 +10,11 @@ import {
   ListItem,
   ListItemText,
   Avatar,
-  Typography
-} from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
+  Typography,
+} from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 
-import infoStyle from "./style/user-info-style";
+import infoStyle from './style/user-info-style';
 
 const TopicItem = ({ topic, onClick }) => {
   return (
@@ -30,23 +30,23 @@ const TopicItem = ({ topic, onClick }) => {
 
 TopicItem.propTypes = {
   topic: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 };
 
 @inject(stores => {
   return {
     user: stores.appState.user,
-    appState: stores.appState
+    appState: stores.appState,
   };
 })
 @observer
 class UserInfo extends Component {
   static contextTypes = {
-    router: PropTypes.object
+    router: PropTypes.object,
   };
   componentWillMount() {
     if (!this.props.user.isLogin) {
-      this.context.router.history.replace("/user/login");
+      this.context.router.history.replace('/user/login');
     } else {
       this.props.appState.getUserDetail();
       this.props.appState.getUserCollention();
@@ -59,7 +59,7 @@ class UserInfo extends Component {
     const { classes } = this.props;
     const topics = this.props.user.detail.recentTopics;
     const replies = this.props.user.detail.recentReplies;
-    const collections = this.props.user.detail.collections.List;
+    const collections = this.props.user.collections.list;
     return (
       <UserWrapper>
         <div className={classes.root}>
@@ -132,12 +132,12 @@ class UserInfo extends Component {
 }
 
 UserInfo.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 UserInfo.wrappedComponent.propTypes = {
   user: PropTypes.object.isRequired,
-  appState: PropTypes.object.isRequired
+  appState: PropTypes.object.isRequired,
 };
 
 export default withStyles(infoStyle)(UserInfo);
