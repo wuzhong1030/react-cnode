@@ -1,4 +1,4 @@
-import { observable, toJS, computed, action, extendObservable } from 'mobx';
+import { observable, computed, action, extendObservable } from 'mobx';
 import { topicSchema, replySchema } from '../utils/variable-define';
 import { get, post } from '../utils/request';
 
@@ -99,7 +99,7 @@ export class TopicStore {
       if (this.detailMap[id]) {
         resolve(this.detailMap[id]);
       } else {
-        get(`topic/${id}`, {
+        get(`/topic/${id}`, {
           mdrender: false,
         })
           .then(res => {
