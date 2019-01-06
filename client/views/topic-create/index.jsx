@@ -19,9 +19,12 @@ class TopicCreate extends Component {
     super();
     this.state = {
       title: '',
+      newReply: '',
     };
 
     this.handleChangeTitle = this.handleChangeTitle.bind(this);
+    this.handleChangeContent = this.handleChangeContent.bind(this);
+    this.handleChangeRadio = this.handleChangeRadio.bind(this);
   }
 
   handleChangeTitle() {}
@@ -37,8 +40,46 @@ class TopicCreate extends Component {
             value={this.state.title}
             onChange={this.handleChangeTitle}
           />
+          <SimpleMDE
+            onChange={this.handleChangeContent}
+            value={this.state.newReply}
+            options={{
+              toolbar: false,
+              spellChecker: false,
+              placeholder: '发表你的意见',
+            }}
+          />
+          <div>
+            {Object.keys(tabs).map(tab => {
+              if (tab !== '' || tab !== 'good') {
+                return (
+                  <span className={classes.radioItem}>
+                    <Radio
+                      value={tab}
+                      checked={tab === this.state.tab}
+                      onChange={this.handleChangeRadio}
+                    >
+                      {tabs[tab]}
+                    </Radio>
+                  </span>
+                );
+              }
+            })}
+          </div>
+          <Button
+            fab
+            color="primary"
+            onClick={this.handleCreate}
+            className={classes.createBtn}
+          >
+            <IconReplay />
+          </Button>
         </div>
       </Container>
     );
   }
 }
+
+TopicCreate.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
