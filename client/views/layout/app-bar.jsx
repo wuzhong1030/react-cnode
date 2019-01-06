@@ -44,7 +44,9 @@ class MainAppBar extends Component {
       this.context.router.history.push('/user/login');
     }
   };
-  handleCreateTopic = () => {};
+  handleCreateTopic = () => {
+    this.context.router.history.push('/create');
+  };
   render() {
     const classes = this.props.classes;
     const { user } = this.props.appState;

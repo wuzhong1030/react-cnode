@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import SimpleMDE from 'react-simplemde-editor';
 import PropTypes from 'prop-types';
 
-import { TextField, Radio, Button } from '@material-ui/core';
-import { IconReplay } from '@material-ui/icons/Replay';
+import { TextField, Radio, Button, Snackbar } from '@material-ui/core';
+import IconReplay from '@material-ui/icons/Replay';
 import { withStyles } from '@material-ui/core/styles';
 
 import Container from '../layout/container';
-import createStyle from './style';
+import { createStyle } from './style';
 import { tabs } from '../../utils/variable-define';
 
 class TopicCreate extends Component {
@@ -15,24 +15,67 @@ class TopicCreate extends Component {
     router: PropTypes.object,
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       title: '',
-      newReply: '',
+      content: '',
+      tab: '',
+      open: false,
+      message: '',
     };
 
     this.handleChangeTitle = this.handleChangeTitle.bind(this);
     this.handleChangeContent = this.handleChangeContent.bind(this);
     this.handleChangeRadio = this.handleChangeRadio.bind(this);
+    this.handleCreate = this.handleCreate.bind(this);
   }
 
-  handleChangeTitle() {}
+  handleChangeTitle(e) {
+    this.setState({
+      title: e.target.value.trim(),
+    });
+  }
+
+  handleChangeContent(value) {
+    this.setState({
+      newReply: value,
+    });
+  }
+
+  handleChangeRadio(e) {
+    this.setState({
+      title: e.currentTarget.value,
+    });
+  }
+
+  handleCreate() {
+    const { tab, title, content } = this.state;
+
+    if (!title) {
+    }
+  }
+
+  handleClose() {
+    this.setState({
+      open: false,
+    });
+  }
 
   render() {
     const { classes } = this.props;
+    const { message, open } = this.state;
     return (
       <Container>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          message={message}
+          open={open}
+          onRequestClose={this.handleClose}
+        />
         <div className={classes.root}>
           <TextField
             className={classes.title}
@@ -42,7 +85,7 @@ class TopicCreate extends Component {
           />
           <SimpleMDE
             onChange={this.handleChangeContent}
-            value={this.state.newReply}
+            value={this.state.content}
             options={{
               toolbar: false,
               spellChecker: false,
@@ -53,21 +96,20 @@ class TopicCreate extends Component {
             {Object.keys(tabs).map(tab => {
               if (tab !== '' || tab !== 'good') {
                 return (
-                  <span className={classes.radioItem}>
+                  <span className={classes.radioItem} key={tab}>
                     <Radio
                       value={tab}
                       checked={tab === this.state.tab}
                       onChange={this.handleChangeRadio}
-                    >
-                      {tabs[tab]}
-                    </Radio>
+                    />
+                    {tabs[tab]}
                   </span>
                 );
               }
             })}
           </div>
           <Button
-            fab
+            fab="true"
             color="primary"
             onClick={this.handleCreate}
             className={classes.createBtn}
@@ -83,3 +125,5 @@ class TopicCreate extends Component {
 TopicCreate.propTypes = {
   classes: PropTypes.object.isRequired,
 };
+
+export default withStyles(createStyle)(TopicCreate);

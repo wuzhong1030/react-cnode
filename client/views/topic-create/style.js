@@ -1,4 +1,4 @@
-export default () => {
+export const createStyle = () => {
   return {
     root: {
       position: 'relative',

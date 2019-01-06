@@ -4,6 +4,7 @@ import TopicDetail from '../views/topic-detail/index';
 import TopicList from '../views/topic-list/index';
 import UserLogin from '../views/user/login';
 import UserInfo from '../views/user/info';
+import TopicCreate from '../views/topic-create/index';
 
 import Test from '../../client/test/api-test';
 
@@ -15,6 +16,7 @@ export default () => [
     key="redirect"
   />,
   <Route path="/list" component={TopicList} key="list" />,
+  <Route path="/create" component={TopicCreate} key="create" />,
   <Route exact path="/detail/:id" component={TopicDetail} key="detail" />,
   <Route exact path="/user/login" component={UserLogin} key="login" />,
   <Route exact path="/user/info" component={UserInfo} key="info" />,
