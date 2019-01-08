@@ -1,13 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
 
-const baseUrl = process.env.API_BASE || "";
+const baseUrl = process.env.API_BASE || '';
 
 const generateUrl = (url, params) => {
   const str = Object.keys(params).reduce((result, key) => {
     result += `${key}=${params[key]}&`;
     return result;
-  }, "");
-  const symbol = str ? "?" : "";
+  }, '');
+  const symbol = str ? '?' : '';
   return `${baseUrl}/api${url}${symbol}${str.substring(0, str.length - 1)}`;
 };
 

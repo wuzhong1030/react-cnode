@@ -6,12 +6,9 @@ import { AppState, TopicStore } from '../../store';
 import Helmet from 'react-helmet';
 import Container from '../layout/container';
 
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import { Tabs, Tab, List, LinearProgress } from '@material-ui/core';
 
 import TopicListItem from './list-item';
-import List from '@material-ui/core/List';
-import { LinearProgress } from '@material-ui/core';
 import queryString from 'query-string';
 import { tabs } from '../../utils/variable-define';
 
