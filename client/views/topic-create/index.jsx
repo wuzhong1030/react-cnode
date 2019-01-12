@@ -37,6 +37,7 @@ class TopicCreate extends Component {
     this.handleChangeContent = this.handleChangeContent.bind(this);
     this.handleChangeRadio = this.handleChangeRadio.bind(this);
     this.handleCreate = this.handleCreate.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   handleChangeTitle(e) {
@@ -47,7 +48,7 @@ class TopicCreate extends Component {
 
   handleChangeContent(value) {
     this.setState({
-      newReply: value,
+      content: value,
     });
   }
 
@@ -59,6 +60,7 @@ class TopicCreate extends Component {
 
   handleCreate() {
     const { tab, title, content } = this.state;
+    console.log(tab, title, content);
     if (!title) {
       this.showMessage('标题不能为空');
       return;
@@ -106,9 +108,12 @@ class TopicCreate extends Component {
             vertical: 'top',
             horizontal: 'center',
           }}
-          message={message}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">{message}</span>}
           open={open}
-          onRequestClose={this.handleClose}
+          onClose={this.handleClose}
         />
         <div className={classes.root}>
           <TextField
