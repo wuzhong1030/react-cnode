@@ -53,7 +53,7 @@ class TopicCreate extends Component {
 
   handleChangeRadio(e) {
     this.setState({
-      title: e.currentTarget.value,
+      tab: e.currentTarget.value,
     });
   }
 
@@ -65,6 +65,10 @@ class TopicCreate extends Component {
     }
     if (!content) {
       this.showMessage('内容不能为空');
+      return;
+    }
+    if (!tab) {
+      this.showMessage('标签不能为空');
       return;
     }
     return this.props.topicStore
@@ -124,7 +128,7 @@ class TopicCreate extends Component {
           />
           <div>
             {Object.keys(tabs).map(tab => {
-              if (tab !== '' || tab !== 'good') {
+              if (tab !== '' && tab !== 'good') {
                 return (
                   <span className={classes.radioItem} key={tab}>
                     <Radio
@@ -151,6 +155,10 @@ class TopicCreate extends Component {
     );
   }
 }
+
+TopicCreate.wrappedComponent.propTypes = {
+  topicStore: PropTypes.object.isRequired,
+};
 
 TopicCreate.propTypes = {
   classes: PropTypes.object.isRequired,

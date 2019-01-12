@@ -6,6 +6,7 @@ export const createStyle = () => {
     },
     title: {
       marginBottom: 20,
+      width: '100%'
     },
     selectItem: {
       display: 'inline-flex',
