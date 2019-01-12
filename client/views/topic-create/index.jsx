@@ -10,6 +10,14 @@ import Container from '../layout/container';
 import { createStyle } from './style';
 import { tabs } from '../../utils/variable-define';
 
+import { inject, observer } from 'mobx-react';
+
+@inject(stores => {
+  return {
+    topicStore: stores.topicStore,
+  };
+})
+@observer
 class TopicCreate extends Component {
   static contextTypes = {
     router: PropTypes.object,
@@ -52,16 +60,30 @@ class TopicCreate extends Component {
   handleCreate() {
     const { tab, title, content } = this.state;
     if (!title) {
-      return this.setState({
-        message: '标题是必填项',
-      });
-    } else if (!content) {
-      return this.setState({
-        message: '请填写帖子内容',
-      });
-    } else {
-
+      this.showMessage('标题不能为空');
+      return;
     }
+    if (!content) {
+      this.showMessage('内容不能为空');
+      return;
+    }
+    return this.props.topicStore
+      .createTopic(tab, title, content)
+      .then(res => {
+        this.context.router.history.push('/list');
+      })
+      .catch(err => {
+        this.showMessage({
+          message: err.message,
+        });
+      });
+  }
+
+  showMessage(message) {
+    this.setState({
+      open: true,
+      message,
+    });
   }
 
   handleClose() {

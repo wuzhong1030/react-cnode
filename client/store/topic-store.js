@@ -49,6 +49,7 @@ export class TopicStore {
   @observable topics;
   @observable details;
   @observable syncing;
+  @observable createdTopics = [];
 
   constructor({ syncing = false, topics = [], details = [] } = {}) {
     this.syncing = syncing;
@@ -112,6 +113,33 @@ export class TopicStore {
           })
           .catch(reject);
       }
+    });
+  }
+
+  @action createTopic(tab, title, content) {
+    return new Promise((resolve, reject) => {
+      post(
+        '/topics',
+        {
+          needAccessToken: true,
+        },
+        { title, tab, content }
+      )
+        .then(res => {
+          if (res.success) {
+            const topic = {
+              title,
+              tab,
+              content,
+              id: res.data.topic_id,
+              create_at: Date.now(),
+            };
+            this.createdTopics.push(new Topic(createTopic(topic)));
+            resolve();
+          } else {
+          }
+        })
+        .catch(reject);
     });
   }
 }
