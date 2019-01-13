@@ -100,6 +100,7 @@ class TopicCreate extends Component {
 
   render() {
     const { classes } = this.props;
+    
     const { message, open } = this.state;
     return (
       <Container>
