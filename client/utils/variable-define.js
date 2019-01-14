@@ -4,6 +4,7 @@ export const tabs = {
   job: '工作',
   ask: '问答',
   good: '精品',
+  dev: '测试'
 };
 
 export const topicSchema = {

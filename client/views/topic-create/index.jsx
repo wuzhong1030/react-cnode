@@ -60,7 +60,6 @@ class TopicCreate extends Component {
 
   handleCreate() {
     const { tab, title, content } = this.state;
-    console.log(tab, title, content);
     if (!title) {
       this.showMessage('标题不能为空');
       return;
@@ -73,15 +72,13 @@ class TopicCreate extends Component {
       this.showMessage('标签不能为空');
       return;
     }
-    return this.props.topicStore
+    this.props.topicStore
       .createTopic(tab, title, content)
       .then(res => {
         this.context.router.history.push('/list');
       })
       .catch(err => {
-        this.showMessage({
-          message: err.message,
-        });
+        this.showMessage('创建失败');
       });
   }
 
@@ -100,7 +97,7 @@ class TopicCreate extends Component {
 
   render() {
     const { classes } = this.props;
-    
+
     const { message, open } = this.state;
     return (
       <Container>

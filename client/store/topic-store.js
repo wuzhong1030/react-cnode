@@ -137,6 +137,7 @@ export class TopicStore {
             this.createdTopics.push(new Topic(createTopic(topic)));
             resolve();
           } else {
+            reject(res)
           }
         })
         .catch(reject);

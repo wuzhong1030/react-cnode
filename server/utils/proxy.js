@@ -19,7 +19,7 @@ module.exports = function(req, res, next) {
   if (query.needAccessToken) delete query.needAccessToken;
   let host;
   needAccessToken ? (host = 'https:') : (host = 'http:');
-  console.log(`${host}${baseUrl}${path}`);
+  console.log(`${host}${baseUrl}${path}`, req.body, req.method, user.accessToken);
   axios
     .post(`${host}${baseUrl}${path}`, {
       method: req.method,
