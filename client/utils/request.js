@@ -13,6 +13,7 @@ const generateUrl = (url, params) => {
 
 export const get = (url, params = {}) => {
   return new Promise((resolve, reject) => {
+    console.log(generateUrl(url, params))
     axios
       .get(generateUrl(url, params))
       .then(res => {

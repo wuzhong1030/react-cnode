@@ -40,6 +40,7 @@ export default class TopicList extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.location.search !== this.props.location.search) {
+      console.log(this.getTabValue(nextProps.location.search))
       this.props.topicStore.fetchTopics(
         this.getTabValue(nextProps.location.search)
       );
