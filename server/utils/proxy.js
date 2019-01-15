@@ -52,6 +52,7 @@ module.exports = function(req, res, next) {
   } else {
     axios
       .post(`${host}${baseUrl}${path}`, {
+        params: query,
         data: JSON.stringify(
           Object.assign({}, req.body, {
             accesstoken:
@@ -62,9 +63,9 @@ module.exports = function(req, res, next) {
         //   accesstoken:
         //     needAccessToken && req.method === 'POST' ? user.accessToken : '',
         // }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        // headers: {
+        //   'Content-Type': 'application/json',
+        // },
       })
       .then(result => {
         if (result.status === 200) {
@@ -74,7 +75,7 @@ module.exports = function(req, res, next) {
         }
       })
       .catch(err => {
-        console.log(err.response.data)
+        console.log(err.response.data);
         if (err.response.data) {
           res.send(err.response.data.error_msg);
         } else {
