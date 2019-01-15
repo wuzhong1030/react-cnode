@@ -35,7 +35,7 @@ export default class TopicList extends Component {
 
   componentDidMount() {
     const tab = this.getTabValue();
-    this.props.topicStore.fetchTopics();
+    this.props.topicStore.fetchTopics(tab);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -85,6 +85,7 @@ export default class TopicList extends Component {
         </Tabs>
         <List style={{ backgroundColor: '#dfdfdf' }}>
           {createdTopics.map(topic => {
+            console.log('xxxx', topic)
             topic = Object.assign({}, topic, {
               author: user.info,
             });

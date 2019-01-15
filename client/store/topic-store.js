@@ -68,7 +68,7 @@ export class TopicStore {
     }, {});
   }
 
-  @action fetchTopics(tab) {
+  @action fetchTopics(tab = '') {
     return new Promise((resolve, reject) => {
       this.syncing = true;
       this.topics = [];
@@ -126,12 +126,13 @@ export class TopicStore {
         { title, tab, content }
       )
         .then(res => {
+          console.log('res', res)
           if (res.success) {
             const topic = {
               title,
               tab,
               content,
-              id: res.data.topic_id,
+              id: res.topic_id,
               create_at: Date.now(),
             };
             this.createdTopics.push(new Topic(createTopic(topic)));

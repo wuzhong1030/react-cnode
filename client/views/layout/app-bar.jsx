@@ -37,7 +37,7 @@ class MainAppBar extends Component {
   onHomeIconClick = () => {
     this.context.router.history.push('/list');
   };
-  handleLogin = () => {
+  handleButtonClick = () => {
     if (this.props.appState.user.isLogin) {
       this.context.router.history.push('/user/info');
     } else {
@@ -69,11 +69,11 @@ class MainAppBar extends Component {
             >
               <EditIcon />
             </IconButton>
-            {user.isLogin ? (
-              user.info.loginname
-            ) : (
-              <Button onClick={this.handleLogin}>登陆</Button>
-            )}
+            {
+              <Button onClick={this.handleButtonClick}>
+                {!user.isLogin ? '登陆' : user.info && user.info.loginname || ''}
+              </Button>
+            }
           </Toolbar>
         </AppBar>
       </div>
