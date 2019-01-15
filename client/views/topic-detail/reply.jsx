@@ -4,7 +4,7 @@ import marked from 'marked';
 import Avatar from '@material-ui/core/Avatar';
 import { replyStyle } from './styles';
 import { withStyles } from '@material-ui/core/styles';
-import dateformat from 'dateformat';
+import moment from 'moment';
 
 const Reply = ({ reply, classes }) => {
   return (
@@ -14,8 +14,7 @@ const Reply = ({ reply, classes }) => {
       </div>
       <div className={classes.right}>
         <span className={classes.loginname}>{`${reply.author.loginname}`}</span>
-        <span className={classes.createAt}>{`${dateformat(
-          reply.create_at,
+        <span className={classes.createAt}>{`${moment(reply.create_at).format(
           'yyyy-MM-dd'
         )}`}</span>
         <p dangerouslySetInnerHTML={{ __html: marked(reply.content) }} />
