@@ -8,6 +8,7 @@ import { TopicPrimaryStyle, TopicSecondaryStyle } from './styles';
 import { withStyles } from '@material-ui/core/styles';
 import { tabs } from '../../utils/variable-define';
 import cs from 'classnames';
+import dateformat from 'dateformat';
 
 const Primary = ({ classes, topic }) => {
   const classNames = cs({
@@ -30,7 +31,7 @@ const Secondary = ({ classes, topic }) => (
       <span>/</span>
       <span>{topic.visit_count}</span>
     </span>
-    <span>创建时间：{topic.create_at}</span>
+    <span>创建时间：{`${dateformat(topic.create_at, 'yyyy-MM-dd')}`}</span>
   </span>
 );
 
