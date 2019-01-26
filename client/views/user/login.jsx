@@ -59,9 +59,9 @@ class UserLogin extends Component {
     });
     return this.props.appState
       .login(this.state.accessToken)
-      .then(res => {
-        this.context.router.history.replace('/user/info');
-      })
+      // .then(res => {
+      //   this.context.router.history.replace('/user/info');
+      // })
       .catch(err => {
         this.setState({
           helpText: err.data.error_msg,
