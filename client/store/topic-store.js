@@ -78,9 +78,12 @@ export class TopicStore {
       })
         .then(res => {
           if (res.success) {
-            res.data.forEach(topic => {
-              this.addTopic(topic);
-            });
+            // res.data.forEach(topic => {
+            //   this.addTopic(topic);
+            // });
+            this.topics = res.data.map(topic => {
+              return new Topic(createTopic(topic))
+            })
             resolve();
           } else {
             reject();

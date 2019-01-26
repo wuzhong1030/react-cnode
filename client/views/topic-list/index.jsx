@@ -83,7 +83,7 @@ export default class TopicList extends Component {
             <Tab key={k} label={tabs[k]} value={k} />
           ))}
         </Tabs>
-        {(createdTopics && createdTopics.length > 0) && (
+        {(createdTopics && createdTopics.length > 0) ? (
           <List style={{ backgroundColor: '#dfdfdf' }}>
             {createdTopics.map(topic => {
               topic = Object.assign({}, topic, {
@@ -98,8 +98,8 @@ export default class TopicList extends Component {
               );
             })}
           </List>
-        )}
-        {topicList.length ? (
+        ) : null}
+        {topicList.length > 0 ? (
           <List>
             {topicList.map(topic => (
               <TopicListItem
