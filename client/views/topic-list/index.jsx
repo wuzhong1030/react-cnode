@@ -40,7 +40,7 @@ export default class TopicList extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.location.search !== this.props.location.search) {
-      console.log(this.getTabValue(nextProps.location.search))
+      console.log(this.getTabValue(nextProps.location.search));
       this.props.topicStore.fetchTopics(
         this.getTabValue(nextProps.location.search)
       );
@@ -83,20 +83,22 @@ export default class TopicList extends Component {
             <Tab key={k} label={tabs[k]} value={k} />
           ))}
         </Tabs>
-        <List style={{ backgroundColor: '#dfdfdf' }}>
-          {createdTopics.map(topic => {
-            topic = Object.assign({}, topic, {
-              author: user.info,
-            });
-            return (
-              <TopicListItem
-                topic={topic}
-                onClick={this.handleItemClick.bind(this, topic)}
-                key={topic.id}
-              />
-            );
-          })}
-        </List>
+        {(createdTopics && createdTopics.length > 0) && (
+          <List style={{ backgroundColor: '#dfdfdf' }}>
+            {createdTopics.map(topic => {
+              topic = Object.assign({}, topic, {
+                author: user.info,
+              });
+              return (
+                <TopicListItem
+                  topic={topic}
+                  onClick={this.handleItemClick.bind(this, topic)}
+                  key={topic.id}
+                />
+              );
+            })}
+          </List>
+        )}
         {topicList.length ? (
           <List>
             {topicList.map(topic => (

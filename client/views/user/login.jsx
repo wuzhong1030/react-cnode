@@ -8,6 +8,9 @@ import { withStyles } from '@material-ui/core/styles';
 import UserWrapper from './user';
 import loginStyle from './style/login-style';
 
+import { Redirect } from 'react-router-dom';
+import queryString from 'query-string';
+
 @inject(store => {
   return {
     appState: store.appState,
@@ -30,11 +33,10 @@ class UserLogin extends Component {
     this.handleLogin = this.handleLogin.bind(this);
   }
 
-  componentWillMount() {
-    if (this.props.user.isLogin) {
-      this.context.router.history.replace('/user/info');
-    } else {
-    }
+  getFrom(location) {
+    location = location || this.props.location;
+    const query = queryString.parse(location.search);
+    return query.from || '/user/info';
   }
 
   handleInput(e) {
@@ -69,6 +71,11 @@ class UserLogin extends Component {
 
   render() {
     const { classes } = this.props;
+    const from = this.getFrom();
+    const isLogin = this.props.user.isLogin;
+    if (isLogin) {
+      return <Redirect to={from} />;
+    }
     return (
       <UserWrapper>
         <div className={classes.root}>
@@ -100,6 +107,7 @@ class UserLogin extends Component {
 
 UserLogin.propTypes = {
   classes: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 UserLogin.wrappedComponent.propTypes = {

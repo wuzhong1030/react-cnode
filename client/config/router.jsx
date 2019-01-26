@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, withRouter } from 'react-router-dom';
 import TopicDetail from '../views/topic-detail/index';
 import TopicList from '../views/topic-list/index';
 import UserLogin from '../views/user/login';
@@ -29,11 +29,11 @@ const PriviateRoute = ({ isLogin, component: Component, ...rest }) => (
   />
 );
 
-const InjectPriviateRoute = inject(store => {
+const InjectPriviateRoute = withRouter(inject(store => {
   return {
     isLogin: store.appState.user.isLogin,
   };
-})(observer(PriviateRoute));
+})(observer(PriviateRoute)));
 
 PriviateRoute.propTypes = {
   isLogin: PropTypes.bool,
@@ -51,9 +51,7 @@ export default () => [
     key="redirect"
   />,
   <Route path="/list" component={TopicList} key="list" />,
-
   <InjectPriviateRoute path="/create" component={TopicCreate} key="create" />,
-
   <Route exact path="/detail/:id" component={TopicDetail} key="detail" />,
   <Route exact path="/user/login" component={UserLogin} key="login" />,
   <InjectPriviateRoute
