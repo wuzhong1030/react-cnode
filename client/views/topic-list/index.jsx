@@ -13,25 +13,11 @@ import queryString from 'query-string';
 import { tabs } from '../../utils/variable-define';
 
 @inject(stores => ({ ...stores }))
-// @inject(stores => {
-//   return {
-//     appState: stores.appState,
-//     topicStore: stores.topicStore
-//   };
-// })
 @observer
 export default class TopicList extends Component {
   static contextTypes = {
     router: PropTypes.object,
   };
-
-  // asyncBootstrap() {
-  //   return new Promise(resolve => {
-  //     setTimeout(() => {
-  //       resolve(true);
-  //     });
-  //   });
-  // }
 
   componentDidMount() {
     const tab = this.getTabValue();
