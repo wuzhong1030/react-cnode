@@ -10,7 +10,7 @@ import { Paper, CircularProgress, Button, Fab } from '@material-ui/core';
 import IconReplay from '@material-ui/icons/Replay';
 import Reply from './reply';
 import SimpleMDE from 'react-simplemde-editor';
-import dateformat from 'dateformat';
+import moment from 'moment'; 
 
 @inject(stores => {
   return {
@@ -124,10 +124,7 @@ class TopicDetail extends Component {
                 </Button>
               )}
             </div>
-            <span>{`最新回复 ${dateformat(
-              topic.last_reply_at,
-              'yy年MM月dd日'
-            )}`}</span>
+            <span>{`最新回复 ${moment(topic.last_reply_at).format('yy年MM月dd日')}`}</span>
           </header>
 
           {user.isLogin ? (
