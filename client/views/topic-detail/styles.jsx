@@ -30,9 +30,7 @@ export const topicDetailStyle = theme => {
       display: 'flex',
       justifyContent: 'space-between',
     },
-    noLogin: {
-      
-    },
+    noLogin: {},
     mgl: {
       marginLeft: 10,
     },
@@ -52,7 +50,7 @@ export const topicDetailStyle = theme => {
       position: 'absolute',
       right: 40,
       bottom: 80,
-      zIndex: 10
+      zIndex: 10,
     },
     replyBody: {
       padding: 20,
