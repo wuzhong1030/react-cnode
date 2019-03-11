@@ -78,7 +78,7 @@ class TopicCreate extends Component {
         this.context.router.history.push('/list');
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
         this.showMessage(err);
       });
   }
